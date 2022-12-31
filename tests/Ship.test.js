@@ -1,4 +1,4 @@
-import Ship from './Ship';
+import Ship from '../Ship';
 
 // command message: ship is hit -> change its hitpoints -> no need to return anything
 test('ship is hit', () => {
