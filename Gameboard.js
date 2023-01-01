@@ -76,7 +76,22 @@ export default function GameBoard() {
         }
     }
 
-    function receiveAttack() {
+    function receiveAttack(position) {
+        // check position for ship
+        const targetedTile = board[position[0]][position[1]];
+        
+        if(typeof targetedTile == 'object') {
+            // check ship still afloat
+            if(!targetedTile.isSunk()) {
+                targetedTile.hit();
+            }
+        } 
+        else {
+            return {
+                status: 'Missed',
+                coords: position
+            }
+        }
 
     }
 
