@@ -1,4 +1,7 @@
 export default function GameBoard() {
+    // keep track of missed attacks
+    const missed = new Set();
+
     const shipLength = {
         carrier: 5,
         battleship: 4,
@@ -77,16 +80,19 @@ export default function GameBoard() {
     }
 
     function receiveAttack(position) {
-        // check position for ship
         const targetedTile = board[position[0]][position[1]];
         
+        // check position for ship object
         if(typeof targetedTile == 'object') {
-            // check ship still afloat
             if(!targetedTile.isSunk()) {
                 targetedTile.hit();
             }
         } 
+        // handle misses        
         else {
+            missed.add(position);
+            console.log(missed);
+
             return {
                 status: 'Missed',
                 coords: position
