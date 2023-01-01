@@ -28,6 +28,10 @@ export default function Ship(shipName) {
         return timesHit;
     }
 
+    function getName() {
+        return name;
+    }
+
     function isSunk() {
         return shipHitPoints[name] - timesHit === 0;
     }
@@ -36,5 +40,6 @@ export default function Ship(shipName) {
         hit,
         isSunk,
         getHitPoints,
+        getName
     };
 }
