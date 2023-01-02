@@ -62,7 +62,11 @@ export default function GameBoard() {
     
                 // fix row, traverse columns
                 for (let i = colStart; i < colEnd; i++) {
-                    yield board[rowIdx][i];
+                    yield {
+                        value: board[rowIdx][i],
+                        rowIdx,
+                        i
+                    };
                 }
             } else if(orientation === 'v') {
                 const rowStart = coordStart[0];
@@ -72,7 +76,12 @@ export default function GameBoard() {
                 // fix column, traverse rows
                 for (let i = rowStart; i < rowEnd; i++) {
                     if (board[i][colIdx] !== '-') {
-                        yield board[i][colIdx];
+                        // yield board[i][colIdx];
+                        yield {
+                            value: board[rowIdx][i],
+                            colIdx,
+                            i
+                        };
                     }
                 }
             }
@@ -82,7 +91,7 @@ export default function GameBoard() {
             const gen = boardTileGenerator();
 
             for(const tile of gen) {
-                if(tile !== '-') {
+                if(tile.value !== '-') {
                     throw new Error(`Tile is not empty!`);
                 }
             };
