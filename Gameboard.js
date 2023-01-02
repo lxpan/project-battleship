@@ -78,7 +78,7 @@ export default function GameBoard() {
             }
         }
 
-        const checkRowForExistingShips = () => {
+        const checkPlacementForExistingShips = () => {
             const gen = boardTileGenerator();
 
             for(const tile of gen) {
@@ -88,32 +88,12 @@ export default function GameBoard() {
             };
         };
 
-        const checkColumnForExistingShips = () => {
-            const gen = boardTileGenerator();
-            
-            for(const tile of gen) {
-                if(tile !== '-') {
-                    throw new Error(`Tile is not empty!`);
-                }
-            };
-            // const rowStart = coordStart[0];
-            // const rowEnd = coordStart[0] + shipLength[ship.getName()];
-            // const colIdx = coordStart[1];
-
-            // // fix column, traverse rows
-            // for (let i = rowStart; i < rowEnd; i++) {
-            //     if (board[i][colIdx] !== '-') {
-            //         throw new Error(`(${rowIdx},${i}) already has a ship!`);
-            //     }
-            // }
-        }
-
         if (orientation == 'h') {
             const rowIdx = coordStart[0];
             const colStart = coordStart[1];
             const colEnd = colStart + shipLength[ship.getName()];
 
-            checkRowForExistingShips();
+            checkPlacementForExistingShips();
 
             // (9,0), (9, 1), (9, 2) ...
             for (let i = colStart; i < colEnd; i++) {
@@ -124,7 +104,7 @@ export default function GameBoard() {
             const rowStart = coordStart[0];
             const rowEnd = coordStart[0] + shipLength[ship.getName()];
 
-            checkColumnForExistingShips();
+            checkPlacementForExistingShips();
 
             for (let i = rowStart; i < rowEnd; i++) {
                 board[i][colIdx] = ship;
