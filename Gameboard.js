@@ -2,6 +2,7 @@ export default function GameBoard() {
     // keep track of missed attacks
     const missed = new Set();
 
+    // ship length used to perform ship placement
     const shipLength = {
         carrier: 5,
         battleship: 4,
@@ -11,7 +12,7 @@ export default function GameBoard() {
     };
 
     const boardSize = 10;
-    
+
     function createBoard() {
         const _board = [];
         for (let i = 0; i < boardSize; i++) {
@@ -31,49 +32,101 @@ export default function GameBoard() {
             rendered = rendered + '\n';
 
             for (const grid of row) {
-                if(typeof grid == 'object') {
+                if (typeof grid == 'object') {
                     const shipName = grid.getName().charAt(0).toUpperCase();
-                    rendered = `${rendered} ${String(shipName).padStart(3, " ")}`;
-                }
-                else {
-                    rendered = `${rendered} ${String(grid).padStart(3, " ")}`;
+                    rendered = `${rendered} ${String(shipName).padStart(
+                        3,
+                        ' '
+                    )}`;
+                } else {
+                    rendered = `${rendered} ${String(grid).padStart(3, ' ')}`;
                 }
             }
         }
 
         console.log(rendered);
-    };
+    }
 
     function getBoard() {
         return board;
     }
 
     function placeShip(ship, coordStart, orientation) {
+        
+        // currently only works for rows / horizontal traversal
+        function* boardTileGenerator() {
+            if(orientation === 'h') {
+                const rowIdx = coordStart[0];
+                const colStart = coordStart[1];
+                const colEnd = colStart + shipLength[ship.getName()];
+    
+                // fix row, traverse columns
+                for (let i = colStart; i < colEnd; i++) {
+                    yield board[rowIdx][i];
+                }
+            } else if(orientation === 'v') {
+                const rowStart = coordStart[0];
+                const rowEnd = coordStart[0] + shipLength[ship.getName()];
+                const colIdx = coordStart[1];
+    
+                // fix column, traverse rows
+                for (let i = rowStart; i < rowEnd; i++) {
+                    if (board[i][colIdx] !== '-') {
+                        yield board[i][colIdx];
+                    }
+                }
+            }
+        }
 
-        if(orientation == 'h') {
+        const checkRowForExistingShips = () => {
+            const gen = boardTileGenerator();
+
+            for(const tile of gen) {
+                if(tile !== '-') {
+                    throw new Error(`Tile is not empty!`);
+                }
+            };
+        };
+
+        const checkColumnForExistingShips = () => {
+            const gen = boardTileGenerator();
+            
+            for(const tile of gen) {
+                if(tile !== '-') {
+                    throw new Error(`Tile is not empty!`);
+                }
+            };
+            // const rowStart = coordStart[0];
+            // const rowEnd = coordStart[0] + shipLength[ship.getName()];
+            // const colIdx = coordStart[1];
+
+            // // fix column, traverse rows
+            // for (let i = rowStart; i < rowEnd; i++) {
+            //     if (board[i][colIdx] !== '-') {
+            //         throw new Error(`(${rowIdx},${i}) already has a ship!`);
+            //     }
+            // }
+        }
+
+        if (orientation == 'h') {
             const rowIdx = coordStart[0];
             const colStart = coordStart[1];
             const colEnd = colStart + shipLength[ship.getName()];
 
+            checkRowForExistingShips();
+
             // (9,0), (9, 1), (9, 2) ...
             for (let i = colStart; i < colEnd; i++) {
-                if(board[rowIdx][i] !== '-') {
-                    throw new Error(`(${rowIdx},${i}) already has a ship!`);
-                }
-
                 board[rowIdx][i] = ship;
             }
-        }
-        else if(orientation == 'v') {
+        } else if (orientation == 'v') {
+            const colIdx = coordStart[1];
             const rowStart = coordStart[0];
             const rowEnd = coordStart[0] + shipLength[ship.getName()];
-            const colIdx = coordStart[1];
+
+            checkColumnForExistingShips();
 
             for (let i = rowStart; i < rowEnd; i++) {
-                if(board[i][colIdx] !== '-') {
-                    throw new Error(`(${rowIdx},${i}) already has a ship!`);
-                }
-
                 board[i][colIdx] = ship;
             }
         }
@@ -81,34 +134,29 @@ export default function GameBoard() {
 
     function receiveAttack(position) {
         const targetedTile = board[position[0]][position[1]];
-        
+
         // check position for ship object
-        if(typeof targetedTile == 'object') {
-            if(!targetedTile.isSunk()) {
+        if (typeof targetedTile == 'object') {
+            if (!targetedTile.isSunk()) {
                 targetedTile.hit();
             }
-        } 
-        // handle misses        
+        }
+        // handle misses
         else {
             missed.add(position);
-            console.log(missed);
+            // console.log(missed);
 
             return {
                 status: 'Missed',
-                coords: position
-            }
+                coords: position,
+            };
         }
-
     }
 
     return {
         getBoard,
         renderBoard,
         placeShip,
-        receiveAttack
-    }
+        receiveAttack,
+    };
 }
-
-// const board = GameBoard();
-
-// console.table(board.getBoard());
