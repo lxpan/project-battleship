@@ -2,7 +2,7 @@
 Your ‘ships’ will be objects that include their length, the number of times they’ve been hit and whether or not they’ve been sunk.
 */
 
-const shipLength = {
+const SHIP_LENGTH = {
     carrier: 5,
     battleship: 4,
     cruiser: 3,
@@ -12,17 +12,10 @@ const shipLength = {
 
 export default function Ship(shipName) {
     const name = shipName;
-    let length;
-    let sunk;
     let timesHit = 0;
 
-    const shipHitPoints = {
-        carrier: 5,
-        battleship: 4,
-        cruiser: 3,
-        submarine: 3,
-        destroyer: 2,
-    };
+    // amounts of hits a ship can take before it sinks (which equals its length)
+    const shipHitPoints = SHIP_LENGTH;
 
     if (!(shipName in shipHitPoints)) {
         throw new Error();
@@ -44,16 +37,11 @@ export default function Ship(shipName) {
         return shipHitPoints[name] - timesHit === 0;
     }
 
-    function getShipHitPoints() {
-        return shipHitPoints;
-    }
-
     return {
         hit,
-        isSunk,
         getTimesHit,
         getName,
-        getShipHitPoints,
-        length: shipLength[name]
+        isSunk,
+        length: SHIP_LENGTH[name],
     };
 }
