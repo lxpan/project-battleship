@@ -24,7 +24,7 @@ export default function Ship(shipName) {
         return ++timesHit;
     }
 
-    function getHitPoints() {
+    function getTimesHit() {
         return timesHit;
     }
 
@@ -39,7 +39,7 @@ export default function Ship(shipName) {
     return {
         hit,
         isSunk,
-        getHitPoints,
+        getTimesHit,
         getName
     };
 }
