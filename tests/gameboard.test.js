@@ -6,10 +6,10 @@ test('place ship horizontally', () => {
     const ship = Ship('carrier');
     
     board.placeShip(ship, [9, 0], 'h');
+    expect(board.getTile(9, 0)).toBeInstanceOf(Object);
+    expect(board.getTile(9, 4)).toBeInstanceOf(Object);
 
-    // board.renderBoard();
-    expect(board.getBoard()[9][0]).toBeInstanceOf(Object);
-    expect(board.getBoard()[9][4]).toBeInstanceOf(Object);
+    board.renderBoard();
 });
 
 test('place ship vertically', () => {
@@ -17,10 +17,10 @@ test('place ship vertically', () => {
     const ship = Ship('carrier');
     
     board.placeShip(ship, [1, 1], 'v');
-    // board.renderBoard();
+    expect(board.getTile(1, 1)).toBeInstanceOf(Object);
+    expect(board.getTile(4, 1)).toBeInstanceOf(Object);
 
-    expect(board.getBoard()[1][1]).toBeInstanceOf(Object);
-    expect(board.getBoard()[4][1]).toBeInstanceOf(Object);
+    board.renderBoard();
 });
 
 
@@ -67,7 +67,7 @@ test('attack position on board', () => {
     // check that same Ship object is receiving hits
     board.receiveAttack([9, 1]);
 
-    expect(board.getBoard()[9][0]).toBeInstanceOf(Object);
+    expect(board.getTile(9, 0)).toBeInstanceOf(Object);
     expect(ship.getTimesHit()).toBe(2);
 });
 
@@ -80,7 +80,7 @@ test('attacking same tile twice does not damage ship twice', () => {
     board.receiveAttack([9, 0]);
     board.receiveAttack([9, 0]);
 
-    expect(board.getBoard()[9][0]).toBeInstanceOf(Object);
+    expect(board.getTile(9, 0)).toBeInstanceOf(Object);
     expect(ship.getTimesHit()).toBe(1);
 });
 
@@ -122,4 +122,6 @@ test('track sunk ships', () => {
     // check that sunk ships are added to list
     expect(board.getShipsSunk()).toContain('carrier');
     expect(board.getShipsSunk()).toContain('battleship');
+
+    console.log(board.getShipsSunk());
 });

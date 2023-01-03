@@ -55,6 +55,10 @@ export default function GameBoard() {
         return board;
     }
 
+    function getTile(posY, posX) {
+        return board[posY][posX];
+    }
+
     function placeShip(ship, coordStart, orientation) {
         // currently only works for rows / horizontal traversal
         function* boardTileGenerator() {
@@ -151,6 +155,7 @@ export default function GameBoard() {
 
     return {
         getBoard,
+        getTile,
         renderBoard,
         placeShip,
         receiveAttack,
