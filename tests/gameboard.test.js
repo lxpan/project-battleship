@@ -4,26 +4,24 @@ import Ship from '../Ship';
 test('place ship horizontally', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
-    
+
     board.placeShip(ship, [9, 0], 'h');
     expect(board.getTile(9, 0)).toBeInstanceOf(Object);
     expect(board.getTile(9, 4)).toBeInstanceOf(Object);
 
-    board.renderBoard();
-    console.log(ship.length);
+    // board.renderBoard();
 });
 
 test('place ship vertically', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
-    
+
     board.placeShip(ship, [1, 1], 'v');
     expect(board.getTile(1, 1)).toBeInstanceOf(Object);
     expect(board.getTile(4, 1)).toBeInstanceOf(Object);
 
-    board.renderBoard();
+    // board.renderBoard();
 });
-
 
 // check for space should be done independently of adding ship objects, otherwise
 // those additions need to be undone
@@ -32,7 +30,7 @@ test('throw when ship placed without enough space', () => {
     const board = GameBoard();
     const shipH = Ship('carrier');
     const shipV = Ship('carrier');
-    
+
     // test both horizontal and vertical ship placement
     expect(() => board.placeShip(shipH, [9, 7], 'h')).toThrow();
     expect(() => board.placeShip(shipV, [7, 1], 'v')).toThrow();
@@ -43,9 +41,13 @@ test('throw when ship placed without enough space', () => {
     let boardRowH = board.getBoard()[9];
     let boardRowV = board.getBoard()[9];
 
-    boardRowH = boardRowH.map( (space) => space.getName ? space.getName() : space );
-    boardRowV = boardRowV.map( (space) => space.getName ? space.getName() : space );
-    
+    boardRowH = boardRowH.map((space) =>
+        space.getName ? space.getName() : space
+    );
+    boardRowV = boardRowV.map((space) =>
+        space.getName ? space.getName() : space
+    );
+
     expect(boardRowH).not.toContain('carrier');
     expect(boardRowV).not.toContain('destroyer');
 });
@@ -53,7 +55,7 @@ test('throw when ship placed without enough space', () => {
 test('throw when tile occupied', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
-    
+
     board.placeShip(ship, [9, 0], 'h');
     expect(() => board.placeShip(ship, [9, 0], 'h')).toThrow();
 });
@@ -61,9 +63,9 @@ test('throw when tile occupied', () => {
 test('attack position on board', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
-    
+
     board.placeShip(ship, [9, 0], 'h');
-    
+
     board.receiveAttack([9, 0]);
     // check that same Ship object is receiving hits
     board.receiveAttack([9, 1]);
@@ -75,9 +77,9 @@ test('attack position on board', () => {
 test('attacking same tile twice does not damage ship twice', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
-    
+
     board.placeShip(ship, [9, 0], 'h');
-    
+
     board.receiveAttack([9, 0]);
     board.receiveAttack([9, 0]);
 
@@ -88,19 +90,22 @@ test('attacking same tile twice does not damage ship twice', () => {
 test('attack misses', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
-    
+
     board.placeShip(ship, [9, 0], 'h');
-    
-    const expected = {status: 'Missed', coords: [8,0]};
+
+    const expected = { status: 'Missed', coords: [8, 0] };
     expect(board.receiveAttack([8, 0])).toMatchObject(expected);
 });
 
-test('track sunk ships', () => {
+test('report if all ships have been sunk', () => {
     const board = GameBoard();
-    
+
     // full fleet to be placed
     const carrier = Ship('carrier');
     const battleship = Ship('battleship');
+    const cruiser = Ship('cruiser');
+    const submarine = Ship('submarine');
+    const destroyer = Ship('destroyer');
 
     // place and sink carrier
     board.placeShip(carrier, [0, 0], 'v');
@@ -115,14 +120,30 @@ test('track sunk ships', () => {
     board.receiveAttack([1, 1]);
     board.receiveAttack([2, 1]);
     board.receiveAttack([3, 1]);
+    // place and sink cruiser;
+    board.placeShip(cruiser, [0, 2], 'v');
+    board.receiveAttack([0, 2]);
+    board.receiveAttack([1, 2]);
+    board.receiveAttack([2, 2]);
+    // place and sink submarine;
+    board.placeShip(submarine, [0, 3], 'v');
+    board.receiveAttack([0, 3]);
+    board.receiveAttack([1, 3]);
+    board.receiveAttack([2, 3]);
+    // place and sink destroyer
+    board.placeShip(destroyer, [0, 4], 'v');
+    board.receiveAttack([0, 4]);
+    board.receiveAttack([1, 4]);
 
-    // board.renderBoard();
+    board.renderBoard();
 
-    expect(carrier.isSunk()).toBe(true);
-    expect(battleship.isSunk()).toBe(true);
     // check that sunk ships are added to list
-    expect(board.getShipsSunk()).toContain('carrier');
-    expect(board.getShipsSunk()).toContain('battleship');
-
-    console.log(board.getShipsSunk());
+    expect(board.getShipsSunk()).toContain(
+        'carrier',
+        'battleship',
+        'cruiser',
+        'submarine',
+        'destroyer'
+    );
+    expect(board.haveAllShipsSunk()).toBe(true);
 });

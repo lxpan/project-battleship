@@ -146,12 +146,17 @@ export default function GameBoard() {
         return shipsSunk;
     }
 
+    function haveAllShipsSunk() {
+        return (new Set(shipsSunk)).size === 5;
+    }
+
     return {
         getBoard,
         getTile,
         renderBoard,
         placeShip,
         receiveAttack,
-        getShipsSunk
+        getShipsSunk,
+        haveAllShipsSunk
     };
 }
