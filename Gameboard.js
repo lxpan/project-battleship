@@ -1,6 +1,7 @@
 export default function GameBoard() {
     // keep track of missed attacks
     const missed = new Set();
+    const hit = new Set();
 
     // ship length used to perform ship placement
     const shipLength = {
@@ -118,13 +119,15 @@ export default function GameBoard() {
 
         // check position for ship object
         if (typeof targetedTile == 'object') {
-            if (!targetedTile.isSunk()) {
+            // check tile hasn't already been hit and ship still afloat
+            if (!hit.has(JSON.stringify(position)) && !targetedTile.isSunk()) {
                 targetedTile.hit();
+                hit.add(JSON.stringify(position));
             }
         }
         // handle misses
         else {
-            missed.add(position);
+            missed.add(JSON.stringify(position));
             // console.log(missed);
 
             return {

@@ -71,6 +71,19 @@ test('attack position on board', () => {
     expect(ship.getHitPoints()).toBe(2);
 });
 
+test('attacking same tile twice does not damage ship twice', () => {
+    const board = GameBoard();
+    const ship = Ship('carrier');
+    
+    board.placeShip(ship, [9, 0], 'h');
+    
+    board.receiveAttack([9, 0]);
+    board.receiveAttack([9, 0]);
+
+    expect(board.getBoard()[9][0]).toBeInstanceOf(Object);
+    expect(ship.getHitPoints()).toBe(1);
+});
+
 test('attack misses', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
