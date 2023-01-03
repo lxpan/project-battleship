@@ -115,11 +115,11 @@ test('report when all ships sunk', () => {
     board.receiveAttack([2, 1]);
     board.receiveAttack([3, 1]);
 
+    board.renderBoard();
+
     expect(carrier.isSunk()).toBe(true);
     expect(battleship.isSunk()).toBe(true);
     // check that sunk ships are added to list
     expect(board.getShipsSunk()).toContain('carrier');
     expect(board.getShipsSunk()).toContain('battleship');
-    
-    board.renderBoard();
 });

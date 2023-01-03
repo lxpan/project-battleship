@@ -36,7 +36,9 @@ export default function GameBoard() {
             for (const grid of row) {
                 if (typeof grid == 'object') {
                     const shipName = grid.getName().charAt(0).toUpperCase();
-                    rendered = `${rendered} ${String(shipName).padStart(
+                    const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
+
+                    rendered = `${rendered} ${String(shipSymbol).padStart(
                         3,
                         ' '
                     )}`;
