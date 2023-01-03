@@ -87,14 +87,18 @@ test('attacking same tile twice does not damage ship twice', () => {
     expect(ship.getTimesHit()).toBe(1);
 });
 
-test('attack misses', () => {
+test('attack misses (and is displayed)', () => {
     const board = GameBoard();
     const ship = Ship('carrier');
 
     board.placeShip(ship, [9, 0], 'h');
 
-    const expected = { status: 'Missed', coords: [8, 0] };
-    expect(board.receiveAttack([8, 0])).toMatchObject(expected);
+    const expectedA = { status: 'Missed', coords: [9, 5] };
+    const expectedB = { status: 'Missed', coords: [8, 0] };
+    expect(board.receiveAttack([9, 5])).toMatchObject(expectedA);
+    expect(board.receiveAttack([8, 0])).toMatchObject(expectedB);
+
+    board.renderBoard();
 });
 
 test('report if all ships have been sunk', () => {

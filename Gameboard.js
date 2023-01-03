@@ -19,6 +19,7 @@ export default function GameBoard() {
     }
 
     function renderBoard() {
+    /* Legend: * -> miss, x -> hit */
         let rendered = '';
 
         for (let i = 0; i < boardSize; i++) {
@@ -26,6 +27,7 @@ export default function GameBoard() {
 
             for (let j = 0; j < boardSize; j++) {
                 const grid = board[i][j];
+                const coords = [i, j];
                 // check if a shipFactory object, i.e., is a ship
                 if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
@@ -35,6 +37,8 @@ export default function GameBoard() {
                         3,
                         ' '
                     )}`;
+                } else if(misses.has(JSON.stringify(coords))) {
+                    rendered = `${rendered} ${String('*').padStart(3, ' ')}`;
                 } else {
                     rendered = `${rendered} ${String(grid).padStart(3, ' ')}`;
                 }
