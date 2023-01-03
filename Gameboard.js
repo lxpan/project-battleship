@@ -5,14 +5,6 @@ export default function GameBoard() {
     const shipsSunk = [];
 
     // ship length used to perform ship placement
-    const shipLength = {
-        carrier: 5,
-        battleship: 4,
-        cruiser: 3,
-        submarine: 3,
-        destroyer: 2,
-    };
-
     const boardSize = 10;
 
     function createBoard() {
@@ -66,7 +58,7 @@ export default function GameBoard() {
             if (orientation === 'h') {
                 const rowIdx = coordStart[0];
                 const colStart = coordStart[1];
-                const colEnd = colStart + shipLength[ship.getName()];
+                const colEnd = colStart + ship.length;
 
                 // fix row, traverse columns
                 for (let i = colStart; i < colEnd; i++) {
@@ -78,7 +70,7 @@ export default function GameBoard() {
                 }
             } else if (orientation === 'v') {
                 const rowStart = coordStart[0];
-                const rowEnd = coordStart[0] + shipLength[ship.getName()];
+                const rowEnd = coordStart[0] + ship.length;
                 const colIdx = coordStart[1];
 
                 // fix column, traverse rows

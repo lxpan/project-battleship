@@ -10,6 +10,7 @@ test('place ship horizontally', () => {
     expect(board.getTile(9, 4)).toBeInstanceOf(Object);
 
     board.renderBoard();
+    console.log(ship.length);
 });
 
 test('place ship vertically', () => {
