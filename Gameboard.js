@@ -52,33 +52,32 @@ export default function GameBoard() {
     }
 
     function placeShip(ship, coordStart, orientation) {
-        
         // currently only works for rows / horizontal traversal
         function* boardTileGenerator() {
-            if(orientation === 'h') {
+            if (orientation === 'h') {
                 const rowIdx = coordStart[0];
                 const colStart = coordStart[1];
                 const colEnd = colStart + shipLength[ship.getName()];
-    
+
                 // fix row, traverse columns
                 for (let i = colStart; i < colEnd; i++) {
                     yield {
                         value: board[rowIdx][i],
                         rowIdx,
-                        i
+                        i,
                     };
                 }
-            } else if(orientation === 'v') {
+            } else if (orientation === 'v') {
                 const rowStart = coordStart[0];
                 const rowEnd = coordStart[0] + shipLength[ship.getName()];
                 const colIdx = coordStart[1];
-    
+
                 // fix column, traverse rows
                 for (let i = rowStart; i < rowEnd; i++) {
                     yield {
                         value: board[i][colIdx],
                         colIdx,
-                        i
+                        i,
                     };
                 }
             }
@@ -87,11 +86,11 @@ export default function GameBoard() {
         const checkPlacementForExistingShips = () => {
             const gen = boardTileGenerator();
 
-            for(const tile of gen) {
-                if(tile.value !== '-') {
+            for (const tile of gen) {
+                if (tile.value !== '-') {
                     throw new Error(`Tile is not empty!`);
                 }
-            };
+            }
         };
 
         const performShipPlacement = () => {
@@ -103,12 +102,12 @@ export default function GameBoard() {
                 }
             } else if (orientation == 'v') {
                 const gen = boardTileGenerator();
-    
+
                 for (const tile of gen) {
                     board[tile.i][tile.colIdx] = ship;
-                }    
+                }
             }
-        }
+        };
 
         checkPlacementForExistingShips();
         performShipPlacement();
