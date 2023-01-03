@@ -17,9 +17,36 @@ test('place ship vertically', () => {
     const ship = Ship('carrier');
     
     board.placeShip(ship, [1, 1], 'v');
+    // board.renderBoard();
 
     expect(board.getBoard()[1][1]).toBeInstanceOf(Object);
     expect(board.getBoard()[4][1]).toBeInstanceOf(Object);
+});
+
+
+// check for space should be done independently of adding ship objects, otherwise
+// those additions need to be undone
+// todo: write an object to do the check first before placing the ships
+test('throw when ship placed without enough space', () => {
+    const board = GameBoard();
+    const shipH = Ship('carrier');
+    const shipV = Ship('carrier');
+    
+    // test both horizontal and vertical ship placement
+    expect(() => board.placeShip(shipH, [9, 7], 'h')).toThrow();
+    expect(() => board.placeShip(shipV, [7, 1], 'v')).toThrow();
+
+    // board.renderBoard();
+
+    // check that ships are not partially placed when not enough space
+    let boardRowH = board.getBoard()[9];
+    let boardRowV = board.getBoard()[9];
+
+    boardRowH = boardRowH.map( (space) => space.getName ? space.getName() : space );
+    boardRowV = boardRowV.map( (space) => space.getName ? space.getName() : space );
+    
+    expect(boardRowH).not.toContain('carrier');
+    expect(boardRowV).not.toContain('destroyer');
 });
 
 test('throw when tile occupied', () => {
@@ -35,7 +62,6 @@ test('attack position on board', () => {
     const ship = Ship('carrier');
     
     board.placeShip(ship, [9, 0], 'h');
-    board.renderBoard();
     
     board.receiveAttack([9, 0]);
     // check that same Ship object is receiving hits
