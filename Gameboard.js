@@ -75,14 +75,11 @@ export default function GameBoard() {
     
                 // fix column, traverse rows
                 for (let i = rowStart; i < rowEnd; i++) {
-                    if (board[i][colIdx] !== '-') {
-                        // yield board[i][colIdx];
-                        yield {
-                            value: board[rowIdx][i],
-                            colIdx,
-                            i
-                        };
-                    }
+                    yield {
+                        value: board[i][colIdx],
+                        colIdx,
+                        i
+                    };
                 }
             }
         }
@@ -98,25 +95,20 @@ export default function GameBoard() {
         };
 
         if (orientation == 'h') {
-            const rowIdx = coordStart[0];
-            const colStart = coordStart[1];
-            const colEnd = colStart + shipLength[ship.getName()];
-
             checkPlacementForExistingShips();
 
-            // (9,0), (9, 1), (9, 2) ...
-            for (let i = colStart; i < colEnd; i++) {
-                board[rowIdx][i] = ship;
+            const gen = boardTileGenerator();
+
+            for (const tile of gen) {
+                board[tile.rowIdx][tile.i] = ship;
             }
         } else if (orientation == 'v') {
-            const colIdx = coordStart[1];
-            const rowStart = coordStart[0];
-            const rowEnd = coordStart[0] + shipLength[ship.getName()];
-
             checkPlacementForExistingShips();
 
-            for (let i = rowStart; i < rowEnd; i++) {
-                board[i][colIdx] = ship;
+            const gen = boardTileGenerator();
+
+            for (const tile of gen) {
+                board[tile.i][tile.colIdx] = ship;
             }
         }
     }
