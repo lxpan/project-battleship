@@ -6,6 +6,7 @@ export default function GameBoard() {
 
     // ship length used to perform ship placement
     const boardSize = 10;
+    const board = createBoard();
 
     function createBoard() {
         const _board = [];
@@ -16,8 +17,6 @@ export default function GameBoard() {
 
         return _board;
     }
-
-    const board = createBoard();
 
     function renderBoard() {
         let rendered = '';
