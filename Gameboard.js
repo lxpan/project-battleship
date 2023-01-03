@@ -28,7 +28,7 @@ export default function GameBoard() {
             for (let j = 0; j < boardSize; j++) {
                 const grid = board[i][j];
                 const coords = [i, j];
-                // check if a shipFactory object, i.e., is a ship
+                // check if a ship present at current coords
                 if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
                     const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
@@ -37,6 +37,7 @@ export default function GameBoard() {
                         3,
                         ' '
                     )}`;
+                // if a shot miss has been registered at current coords
                 } else if(misses.has(JSON.stringify(coords))) {
                     rendered = `${rendered} ${String('*').padStart(3, ' ')}`;
                 } else {
