@@ -94,7 +94,7 @@ test('attack misses', () => {
     expect(board.receiveAttack([8, 0])).toMatchObject(expected);
 });
 
-test('report when all ships sunk', () => {
+test('track sunk ships', () => {
     const board = GameBoard();
     
     // full fleet to be placed
@@ -115,7 +115,7 @@ test('report when all ships sunk', () => {
     board.receiveAttack([2, 1]);
     board.receiveAttack([3, 1]);
 
-    board.renderBoard();
+    // board.renderBoard();
 
     expect(carrier.isSunk()).toBe(true);
     expect(battleship.isSunk()).toBe(true);
