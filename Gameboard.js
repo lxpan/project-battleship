@@ -34,7 +34,8 @@ export default function GameBoard() {
             rendered = rendered + '\n';
 
             for (const grid of row) {
-                if (typeof grid == 'object') {
+                // check if a shipFactory object, i.e., is a ship
+                if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
                     const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
 
@@ -125,7 +126,7 @@ export default function GameBoard() {
         const targetedTile = board[position[0]][position[1]];
 
         // check position for ship object
-        if (typeof targetedTile == 'object') {
+        if (targetedTile.getName) {
             // check tile hasn't already been hit and ship still afloat
             if (!hits.has(JSON.stringify(position)) && !targetedTile.isSunk()) {
                 const shipAtTile = targetedTile;
