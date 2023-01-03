@@ -21,10 +21,11 @@ export default function GameBoard() {
     function renderBoard() {
         let rendered = '';
 
-        for (const row of board) {
+        for (let i = 0; i < boardSize; i++) {
             rendered = rendered + '\n';
 
-            for (const grid of row) {
+            for (let j = 0; j < boardSize; j++) {
+                const grid = board[i][j];
                 // check if a shipFactory object, i.e., is a ship
                 if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
@@ -49,6 +50,10 @@ export default function GameBoard() {
 
     function getTile(posY, posX) {
         return board[posY][posX];
+    }
+
+    function getMisses() {
+        return misses;
     }
 
     function placeShip(ship, coordStart, orientation) {
@@ -152,6 +157,7 @@ export default function GameBoard() {
     return {
         getBoard,
         getTile,
+        getMisses,
         renderBoard,
         placeShip,
         receiveAttack,
