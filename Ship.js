@@ -36,10 +36,15 @@ export default function Ship(shipName) {
         return shipHitPoints[name] - timesHit === 0;
     }
 
+    function getShipHitPoints() {
+        return shipHitPoints;
+    }
+
     return {
         hit,
         isSunk,
         getTimesHit,
-        getName
+        getName,
+        getShipHitPoints
     };
 }

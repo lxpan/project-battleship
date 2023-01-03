@@ -68,7 +68,7 @@ test('attack position on board', () => {
     board.receiveAttack([9, 1]);
 
     expect(board.getBoard()[9][0]).toBeInstanceOf(Object);
-    expect(ship.getHitPoints()).toBe(2);
+    expect(ship.getTimesHit()).toBe(2);
 });
 
 test('attacking same tile twice does not damage ship twice', () => {
@@ -81,7 +81,7 @@ test('attacking same tile twice does not damage ship twice', () => {
     board.receiveAttack([9, 0]);
 
     expect(board.getBoard()[9][0]).toBeInstanceOf(Object);
-    expect(ship.getHitPoints()).toBe(1);
+    expect(ship.getTimesHit()).toBe(1);
 });
 
 test('attack misses', () => {
@@ -92,4 +92,34 @@ test('attack misses', () => {
     
     const expected = {status: 'Missed', coords: [8,0]};
     expect(board.receiveAttack([8, 0])).toMatchObject(expected);
+});
+
+test('report when all ships sunk', () => {
+    const board = GameBoard();
+    
+    // full fleet to be placed
+    const carrier = Ship('carrier');
+    const battleship = Ship('battleship');
+
+    // place and sink carrier
+    board.placeShip(carrier, [0, 0], 'v');
+    board.receiveAttack([0, 0]);
+    board.receiveAttack([1, 0]);
+    board.receiveAttack([2, 0]);
+    board.receiveAttack([3, 0]);
+    board.receiveAttack([4, 0]);
+    // place and sink battleship
+    board.placeShip(battleship, [0, 1], 'v');
+    board.receiveAttack([0, 1]);
+    board.receiveAttack([1, 1]);
+    board.receiveAttack([2, 1]);
+    board.receiveAttack([3, 1]);
+
+    expect(carrier.isSunk()).toBe(true);
+    expect(battleship.isSunk()).toBe(true);
+    // check that sunk ships are added to list
+    expect(board.getShipsSunk()).toContain('carrier');
+    expect(board.getShipsSunk()).toContain('battleship');
+    
+    board.renderBoard();
 });
