@@ -94,23 +94,24 @@ export default function GameBoard() {
             };
         };
 
-        if (orientation == 'h') {
-            checkPlacementForExistingShips();
-
+        const performShipPlacement = () => {
             const gen = boardTileGenerator();
 
-            for (const tile of gen) {
-                board[tile.rowIdx][tile.i] = ship;
-            }
-        } else if (orientation == 'v') {
-            checkPlacementForExistingShips();
-
-            const gen = boardTileGenerator();
-
-            for (const tile of gen) {
-                board[tile.i][tile.colIdx] = ship;
+            if (orientation == 'h') {
+                for (const tile of gen) {
+                    board[tile.rowIdx][tile.i] = ship;
+                }
+            } else if (orientation == 'v') {
+                const gen = boardTileGenerator();
+    
+                for (const tile of gen) {
+                    board[tile.i][tile.colIdx] = ship;
+                }    
             }
         }
+
+        checkPlacementForExistingShips();
+        performShipPlacement();
     }
 
     function receiveAttack(position) {
