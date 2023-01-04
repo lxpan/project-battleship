@@ -149,6 +149,10 @@ export default function GameBoard() {
             misses.add(JSON.stringify(position));
             // console.log(missed);
 
+            return {
+                status: 'Missed',
+                coords: position,
+            };
         }
     }
 
