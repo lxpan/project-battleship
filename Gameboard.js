@@ -41,8 +41,6 @@ export default function GameBoard() {
                         ' '
                     )}`;
                 // if a shot miss has been registered at current coords
-                } else if(misses.has(JSON.stringify(coords))) {
-                    rendered = `${rendered} ${String(missedSymbol).padStart(3, ' ')}`;
                 } else {
                     rendered = `${rendered} ${String(grid).padStart(3, ' ')}`;
                 }
