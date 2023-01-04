@@ -27,7 +27,9 @@ export default function Player(name) {
 
     // render both top and bottom boards
     const renderPlayerBoards = () => {
-        const combinedRender = `TARGETTING${board.top.renderBoard()}\n${name.toUpperCase()} SHIPS${board.bottom.renderBoard()}`;
+        const topBoardTitle = 'TARGETTING'.padStart(26, ' ');
+        const bottomBoardTitle = (name.toUpperCase() + ' SHIPS').padStart(28, ' ');
+        const combinedRender = `${topBoardTitle}${board.top.renderBoard()}\n${bottomBoardTitle}${board.bottom.renderBoard()}`;
         console.log(combinedRender);
     };
 
