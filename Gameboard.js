@@ -19,8 +19,10 @@ export default function GameBoard() {
     }
 
     function renderBoard() {
-    /* Legend: * -> miss, x -> hit */
+        /* Legend: * -> miss, x -> hit */
         let rendered = '';
+        const missedSymbol = '*';
+        const hitSymbol = '!';
 
         for (let i = 0; i < boardSize; i++) {
             rendered = rendered + '\n';
@@ -31,7 +33,8 @@ export default function GameBoard() {
                 // check if a ship present at current coords
                 if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
-                    const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
+                    // const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
+                    const shipSymbol = hits.has(JSON.stringify([i, j])) ? shipName + hitSymbol : shipName;
 
                     rendered = `${rendered} ${String(shipSymbol).padStart(
                         3,
@@ -39,7 +42,7 @@ export default function GameBoard() {
                     )}`;
                 // if a shot miss has been registered at current coords
                 } else if(misses.has(JSON.stringify(coords))) {
-                    rendered = `${rendered} ${String('*').padStart(3, ' ')}`;
+                    rendered = `${rendered} ${String(missedSymbol).padStart(3, ' ')}`;
                 } else {
                     rendered = `${rendered} ${String(grid).padStart(3, ' ')}`;
                 }
@@ -146,7 +149,7 @@ export default function GameBoard() {
         }
         // handle misses
         else {
-            misses.add(JSON.stringify(position));
+            misses.add(JSON.stringify(position));   
             // console.log(missed);
 
             return {
