@@ -45,8 +45,8 @@ export default function GameBoard() {
                 }
             }
         }
-
-        console.log(rendered);
+        return rendered;
+        // console.log(rendered);
     }
 
     function getBoard() {
@@ -137,6 +137,11 @@ export default function GameBoard() {
                 if(shipAtTile.isSunk()) {
                     shipsSunk.push(shipAtTile.getName());
                 }
+
+                return {
+                    status: 'Hit',
+                    coords: position,
+                }
             }
         }
         // handle misses
@@ -144,10 +149,6 @@ export default function GameBoard() {
             misses.add(JSON.stringify(position));
             // console.log(missed);
 
-            return {
-                status: 'Missed',
-                coords: position,
-            };
         }
     }
 
