@@ -58,6 +58,10 @@ export default function GameBoard() {
         return board[posY][posX];
     }
 
+    function setTile(gridCoord, value) {
+        board[gridCoord[0]][gridCoord[1]] = value;
+    }
+
     function getMisses() {
         return misses;
     }
@@ -168,6 +172,7 @@ export default function GameBoard() {
     return {
         getBoard,
         getTile,
+        setTile,
         getMisses,
         renderBoard,
         placeShip,

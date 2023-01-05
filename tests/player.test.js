@@ -3,10 +3,11 @@ import Player from '../Player';
 
 function processAttackResult(_result, _move, currentPlayer) {
     if(_result.status === 'Hit') {
-        currentPlayer.board.top.getBoard()[_move[0]][_move[1]] = 'H';
+        // currentPlayer.board.top.getBoard()[_move[0]][_move[1]] = 'H';
+        currentPlayer.board.top.setTile(_move, 'H');
         currentPlayer.addHit(_move);
     } else if(_result.status === 'Missed') {
-        currentPlayer.board.top.getBoard()[_move[0]][_move[1]] = 'x';
+        currentPlayer.board.top.setTile(_move, 'x');
         currentPlayer.addMiss(_move);
     }
 }
