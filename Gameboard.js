@@ -34,13 +34,15 @@ export default function GameBoard() {
                 if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
                     // const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
-                    const shipSymbol = hits.has(JSON.stringify([i, j])) ? shipName + hitSymbol : shipName;
+                    const shipSymbol = hits.has(JSON.stringify([i, j]))
+                        ? shipName + hitSymbol
+                        : shipName;
 
                     rendered = `${rendered} ${String(shipSymbol).padStart(
                         3,
                         ' '
                     )}`;
-                // if a shot miss has been registered at current coords
+                    // if a shot miss has been registered at current coords
                 } else {
                     rendered = `${rendered} ${String(grid).padStart(3, ' ')}`;
                 }
@@ -139,23 +141,28 @@ export default function GameBoard() {
                 shipAtTile.hit();
                 hits.add(JSON.stringify(position));
 
-                if(shipAtTile.isSunk()) {
+                if (shipAtTile.isSunk()) {
                     shipsSunk.push(shipAtTile.getName());
                 }
 
                 return {
                     status: 'Hit',
                     coords: position,
-                }
+                };
             }
         }
         // handle misses
-        else {
-            misses.add(JSON.stringify(position));   
+        else if (typeof targetedTile == 'string') {
+            misses.add(JSON.stringify(position));
             // console.log(missed);
 
             return {
                 status: 'Missed',
+                coords: position,
+            };
+        } else {
+            return {
+                status: 'Error',
                 coords: position,
             };
         }
@@ -166,7 +173,7 @@ export default function GameBoard() {
     }
 
     function haveAllShipsSunk() {
-        return (new Set(shipsSunk)).size === 5;
+        return new Set(shipsSunk).size === 5;
     }
 
     return {
@@ -178,6 +185,6 @@ export default function GameBoard() {
         placeShip,
         receiveAttack,
         getShipsSunk,
-        haveAllShipsSunk
+        haveAllShipsSunk,
     };
 }
