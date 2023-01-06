@@ -4,7 +4,7 @@ import Ship from '../Ship';
 test('ship is hit', () => {
     const ship = Ship('carrier');
     ship.hit();
-    expect(ship.getHitPoints()).toBe(1);
+    expect(ship.getTimesHit()).toBe(1);
 });
 
 test('invalid ships throw error', () => {
