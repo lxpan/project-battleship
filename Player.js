@@ -7,6 +7,7 @@ export default function Player(name) {
 
     const hits = new Set();
     const misses = new Set();
+    const gridRoulette = [];
 
     const board = {
         top: GameBoard(),
@@ -40,8 +41,74 @@ export default function Player(name) {
     };
 
     const playNextMovePreset = function* () {
-        yield [0, 0];
-        yield [2, 4];
+        yield [0, 4];
+        yield [0, 5];
+    }
+
+    const randCoord = (max) => {
+        const randY = Math.floor(Math.random() * max);
+        const randX = Math.floor(Math.random() * max);
+
+        const attackCoords = [randY, randX];
+        return attackCoords;
+    }
+
+    const playNextMove = () => {
+        function isMoveLegal(_move) {
+            const y = _move[0];
+            const x = _move[1];
+            if (x >= 0 && x < 10 && y >= 0 && y < 10) {
+                return true;
+            }
+            return false;
+        }
+        // find the current hits
+        const parseHits = Array.from(hits).map(hit => JSON.parse(hit));
+        
+        // make an attack adjacent to a current hit
+        while(parseHits.length > 0) {
+            const move = parseHits.shift(0);
+            const y = move[0];
+            const x = move[1];
+
+            const validMoves = [];
+
+            // all moves adjacent to (y, x)
+            const enumerateMoves = [
+                [y - 1, x], // North of
+                [y, x + 1], // East of
+                [y + 1, x], // South of
+                [y, x - 1]  // West of
+            ];
+
+            // find adjacent moves that haven't already been played
+            enumerateMoves.forEach( coord => {
+                if(isMoveLegal(coord) && !hits.has(JSON.stringify(coord)) && !misses.has(JSON.stringify(coord))) {
+                    validMoves.push(coord);
+                }
+            });
+
+            // return the move if it exists
+            if(validMoves.length > 0) {
+                return validMoves.shift(0);
+            }
+        }
+
+        // if no adjacent-hit move exist, attack a random space that hasn't previously been attacked
+        let smartMove = false;
+        let randomMove;
+
+        // continue rerolling random coordinates until an unplayed move is found
+        while(!smartMove) {
+            randomMove = randCoord(10);
+            if(isMoveLegal(randomMove) && !hits.has(JSON.stringify(randomMove)) && !misses.has(JSON.stringify(randomMove))) {
+                smartMove = true;
+            } else {
+                gridRoulette.push(randomMove);
+                // console.log(`Move ${randomMove} seen before!`);
+            }
+        }
+        if(smartMove) return randomMove;
     };
 
     const addHit = (coord) => {
@@ -52,6 +119,14 @@ export default function Player(name) {
         misses.add(JSON.stringify(coord));
     }
 
+    const getMisses = () => misses;
+    const getHits = () => hits;
+    const getRoulette = () => gridRoulette;
+
+    const getAllPreviousAttacks = () => {
+        return new Set([...hits, ...misses]);
+    }
+
     const instance = {
         name,
         board,
@@ -60,7 +135,11 @@ export default function Player(name) {
         playNextMove,
         playNextMovePreset,
         addHit,
-        addMiss
+        addMiss,
+        getAllPreviousAttacks,
+        getMisses,
+        getHits,
+        getRoulette
     };
 
     return instance;
