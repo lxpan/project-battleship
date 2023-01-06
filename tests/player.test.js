@@ -101,8 +101,7 @@ describe('main game loop', () => {
 
             if (!turnGameWon && player.board.bottom.haveAllShipsSunk()) {
                 turnGameWon = i;
-                console.log(`All ships have been sunk at turn: ${turnGameWon}`);
-                break
+                // break
             }
 
             // const enemyShipsSunk = player.board.bottom.getShipsSunk();
@@ -115,7 +114,8 @@ describe('main game loop', () => {
         const totalHits = computer.getHits().size;
         const totalAttacks = totalMisses + totalHits;
         const totalRandomAttempts = computer.getRoulette().length;
-
+        
+        if(turnGameWon) console.log(`All ships have been sunk at turn: ${turnGameWon}`);
         console.log(
             `Total misses: ${totalMisses}\nTotal hits: ${totalHits}\nTotal shots: ${
                 totalMisses + totalHits
