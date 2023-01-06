@@ -14,8 +14,22 @@ export default function Player(name) {
         bottom: GameBoard(),
     };
 
-    const setupBottomBoard = () => {
+    const setupBottomBoardSpreadOut = () => {
         // full fleet to be placed
+        const carrier = Ship('carrier');
+        const battleship = Ship('battleship');
+        const cruiser = Ship('cruiser');
+        const submarine = Ship('submarine');
+        const destroyer = Ship('destroyer');
+
+        board.bottom.placeShip(carrier, [2, 4], 'h');
+        board.bottom.placeShip(battleship, [8, 6], 'h');
+        board.bottom.placeShip(cruiser, [2, 2], 'v');
+        board.bottom.placeShip(submarine, [5, 4], 'v');
+        board.bottom.placeShip(destroyer, [8, 1], 'v');
+    };
+
+    const setupBottomBoard = () => {
         const carrier = Ship('carrier');
         const battleship = Ship('battleship');
         const cruiser = Ship('cruiser');
@@ -131,6 +145,7 @@ export default function Player(name) {
         name,
         board,
         setupBottomBoard,
+        setupBottomBoardSpreadOut,
         renderPlayerBoards,
         playNextMove,
         playNextMovePreset,
