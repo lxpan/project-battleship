@@ -91,9 +91,10 @@ describe('main game loop', () => {
         const player = Player('Player');
         player.setupBottomBoard();
 
+        const numRounds = 50;
         let turnGameWon = false;
 
-        for (let i = 0; i < 70; i++) {
+        for (let i = 0; i < numRounds; i++) {
             const move = computer.playNextMove();
             const result = player.board.bottom.receiveAttack(move);
             processAttackResult(result, move, computer);
@@ -109,12 +110,19 @@ describe('main game loop', () => {
         }
         player.renderPlayerBoards();
         computer.renderPlayerBoards();
+
+        const totalMisses = computer.getMisses().size;
+        const totalHits = computer.getHits().size;
+        const totalAttacks = totalMisses + totalHits;
+        const totalRandomAttempts = computer.getRoulette().length;
+
         console.log(
-            `Total misses: ${computer.getMisses().size}\nTotal hits: ${
-                computer.getHits().size
-            }\nTotal shots: ${
-                computer.getMisses().size + computer.getHits().size
-            }\nTotal of random attempts: ${computer.getRoulette().length}`
+            `Total misses: ${totalMisses}\nTotal hits: ${totalHits}\nTotal shots: ${
+                totalMisses + totalHits
+            }\nTotal of random attempts: ${totalRandomAttempts}`
         );
+
+        // validate that AI attacks every round
+        expect(totalAttacks).toBe(numRounds);
     });
 });
