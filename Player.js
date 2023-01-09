@@ -46,15 +46,12 @@ export default function Player(name) {
     // render both top and bottom boards
     const renderPlayerBoards = () => {
         const topBoardTitle = 'TARGETTING'.padStart(26, ' ');
-        const bottomBoardTitle = (name.toUpperCase() + ' SHIPS').padStart(
-            28,
-            ' '
-        );
+        const bottomBoardTitle = `${name.toUpperCase()} SHIPS`.padStart(28, ' ');
         const combinedRender = `${topBoardTitle}${board.top.renderBoard()}\n${bottomBoardTitle}${board.bottom.renderBoard()}`;
         console.log(combinedRender);
     };
 
-    const playNextMovePreset = function* () {
+    function* playNextMovePreset() {
         yield [0, 4];
         yield [0, 5];
     }
@@ -65,7 +62,7 @@ export default function Player(name) {
 
         const attackCoords = [randY, randX];
         return attackCoords;
-    }
+    };
 
     const playNextMove = () => {
         function isMoveLegal(_move) {
@@ -77,10 +74,10 @@ export default function Player(name) {
             return false;
         }
         // find the current hits
-        const parseHits = Array.from(hits).map(hit => JSON.parse(hit));
-        
+        const parseHits = Array.from(hits).map((hit) => JSON.parse(hit));
+
         // make an attack adjacent to a current hit
-        while(parseHits.length > 0) {
+        while (parseHits.length > 0) {
             const move = parseHits.shift(0);
             const y = move[0];
             const x = move[1];
@@ -92,18 +89,22 @@ export default function Player(name) {
                 [y - 1, x], // North of
                 [y, x + 1], // East of
                 [y + 1, x], // South of
-                [y, x - 1]  // West of
+                [y, x - 1], // West of
             ];
 
             // find adjacent moves that haven't already been played
-            enumerateMoves.forEach( coord => {
-                if(isMoveLegal(coord) && !hits.has(JSON.stringify(coord)) && !misses.has(JSON.stringify(coord))) {
+            enumerateMoves.forEach((coord) => {
+                if (
+                    isMoveLegal(coord)
+                    && !hits.has(JSON.stringify(coord))
+                    && !misses.has(JSON.stringify(coord))
+                ) {
                     validMoves.push(coord);
                 }
             });
 
             // return the move if it exists
-            if(validMoves.length > 0) {
+            if (validMoves.length > 0) {
                 return validMoves.shift(0);
             }
         }
@@ -112,34 +113,37 @@ export default function Player(name) {
         let smartMove = false;
         let randomMove;
 
-        // continue rerolling random coordinates until an unplayed move is found
-        while(!smartMove) {
+        // continue generating random coordinates until an unplayed move is found
+        while (!smartMove) {
             randomMove = randCoord(10);
-            if(isMoveLegal(randomMove) && !hits.has(JSON.stringify(randomMove)) && !misses.has(JSON.stringify(randomMove))) {
+            if (
+                isMoveLegal(randomMove)
+                && !hits.has(JSON.stringify(randomMove))
+                && !misses.has(JSON.stringify(randomMove))
+            ) {
                 smartMove = true;
-            } else {
+            }
+            else {
                 gridRoulette.push(randomMove);
                 // console.log(`Move ${randomMove} seen before!`);
             }
         }
-        if(smartMove) return randomMove;
+        if (smartMove) return randomMove;
     };
 
     const addHit = (coord) => {
         hits.add(JSON.stringify(coord));
-    }
+    };
 
     const addMiss = (coord) => {
         misses.add(JSON.stringify(coord));
-    }
+    };
 
     const getMisses = () => misses;
     const getHits = () => hits;
     const getRoulette = () => gridRoulette;
 
-    const getAllPreviousAttacks = () => {
-        return new Set([...hits, ...misses]);
-    }
+    const getAllPreviousAttacks = () => new Set([...hits, ...misses]);
 
     const instance = {
         name,
@@ -154,7 +158,7 @@ export default function Player(name) {
         getAllPreviousAttacks,
         getMisses,
         getHits,
-        getRoulette
+        getRoulette,
     };
 
     return instance;
