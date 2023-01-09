@@ -41,12 +41,8 @@ test('throw when ship placed without enough space', () => {
     let boardRowH = board.getBoard()[9];
     let boardRowV = board.getBoard()[9];
 
-    boardRowH = boardRowH.map((space) =>
-        space.getName ? space.getName() : space
-    );
-    boardRowV = boardRowV.map((space) =>
-        space.getName ? space.getName() : space
-    );
+    boardRowH = boardRowH.map((space) => (space.getName ? space.getName() : space));
+    boardRowV = boardRowV.map((space) => (space.getName ? space.getName() : space));
 
     expect(boardRowH).not.toContain('carrier');
     expect(boardRowV).not.toContain('destroyer');
@@ -147,7 +143,7 @@ test('report if all ships have been sunk', () => {
         'battleship',
         'cruiser',
         'submarine',
-        'destroyer'
+        'destroyer',
     );
     expect(board.haveAllShipsSunk()).toBe(true);
 });

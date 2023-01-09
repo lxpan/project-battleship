@@ -6,7 +6,6 @@ export default function GameBoard() {
 
     // ship length used to perform ship placement
     const boardSize = 10;
-    const board = createBoard();
 
     function createBoard() {
         const _board = [];
@@ -18,18 +17,18 @@ export default function GameBoard() {
         return _board;
     }
 
+    const board = createBoard();
+
     function renderBoard() {
-        /* Legend: * -> miss, x -> hit */
         let rendered = '';
-        const missedSymbol = '*';
         const hitSymbol = '!';
 
         for (let i = 0; i < boardSize; i++) {
-            rendered = rendered + '\n';
+            rendered += '\n';
 
             for (let j = 0; j < boardSize; j++) {
                 const grid = board[i][j];
-                const coords = [i, j];
+
                 // check if a ship present at current coords
                 if (grid.getName) {
                     const shipName = grid.getName().charAt(0).toUpperCase();
@@ -38,12 +37,10 @@ export default function GameBoard() {
                         ? shipName + hitSymbol
                         : shipName;
 
-                    rendered = `${rendered} ${String(shipSymbol).padStart(
-                        3,
-                        ' '
-                    )}`;
+                    rendered = `${rendered} ${String(shipSymbol).padStart(3, ' ')}`;
                     // if a shot miss has been registered at current coords
-                } else {
+                }
+                else {
                     rendered = `${rendered} ${String(grid).padStart(3, ' ')}`;
                 }
             }
@@ -84,7 +81,8 @@ export default function GameBoard() {
                         i,
                     };
                 }
-            } else if (orientation === 'v') {
+            }
+            else if (orientation === 'v') {
                 const rowStart = coordStart[0];
                 const rowEnd = coordStart[0] + ship.length;
                 const colIdx = coordStart[1];
@@ -105,7 +103,7 @@ export default function GameBoard() {
 
             for (const tile of gen) {
                 if (tile.value !== '-') {
-                    throw new Error(`Tile is not empty!`);
+                    throw new Error('Tile is not empty!');
                 }
             }
         };
@@ -113,14 +111,15 @@ export default function GameBoard() {
         const performShipPlacement = () => {
             const gen = boardTileGenerator();
 
-            if (orientation == 'h') {
+            if (orientation === 'h') {
                 for (const tile of gen) {
                     board[tile.rowIdx][tile.i] = ship;
                 }
-            } else if (orientation == 'v') {
-                const gen = boardTileGenerator();
+            }
+            else if (orientation === 'v') {
+                const _gen = boardTileGenerator();
 
-                for (const tile of gen) {
+                for (const tile of _gen) {
                     board[tile.i][tile.colIdx] = ship;
                 }
             }
@@ -152,7 +151,7 @@ export default function GameBoard() {
             }
         }
         // handle misses
-        else if (typeof targetedTile == 'string') {
+        else if (typeof targetedTile === 'string') {
             misses.add(JSON.stringify(position));
             // console.log(missed);
 
@@ -160,7 +159,8 @@ export default function GameBoard() {
                 status: 'Missed',
                 coords: position,
             };
-        } else {
+        }
+        else {
             return {
                 status: 'Error',
                 coords: position,

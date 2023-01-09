@@ -1,6 +1,6 @@
 import Ship from '../Ship';
 
-// command message: ship is hit -> change its hitpoints -> no need to return anything
+// command message: ship is hit -> increment timesHit -> no need to return anything
 test('ship is hit', () => {
     const ship = Ship('carrier');
     ship.hit();
@@ -25,7 +25,7 @@ test('ship still alive', () => {
     expect(ship.isSunk()).toBe(false);
 });
 
-/* 
+/*
 Query message: return something / change nothing (no side effects)
 Test incoming queries by asserting what they send back
 

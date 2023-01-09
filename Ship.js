@@ -1,7 +1,3 @@
-/*
-Your ‘ships’ will be objects that include their length, the number of times they’ve been hit and whether or not they’ve been sunk.
-*/
-
 const SHIP_LENGTH = {
     carrier: 5,
     battleship: 4,
@@ -22,7 +18,8 @@ export default function Ship(shipName) {
     }
 
     function hit() {
-        return ++timesHit;
+        timesHit += 1;
+        return timesHit;
     }
 
     function getTimesHit() {
