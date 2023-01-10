@@ -50,7 +50,6 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
             currentPlayer = playerTwo;
         }
         else if (currentPlayer.name === 'Computer') {
-            console.log(playerTwo.getHits());
             const result = playerOne.board.bottom.receiveAttack(move);
             processAttackResult(result, move, playerTwo);
             currentPlayer = playerOne;
