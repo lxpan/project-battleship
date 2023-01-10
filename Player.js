@@ -75,6 +75,7 @@ export default function Player(name) {
         }
         // find the current hits
         const parseHits = Array.from(hits).map((hit) => JSON.parse(hit));
+        // console.log(parseHits);
 
         // make an attack adjacent to a current hit
         while (parseHits.length > 0) {
@@ -145,6 +146,20 @@ export default function Player(name) {
 
     const getAllPreviousAttacks = () => new Set([...hits, ...misses]);
 
+    const stats = () => {
+        const totalMisses = getMisses().size;
+        const totalHits = getHits().size;
+        const totalAttacks = totalMisses + totalHits;
+        const totalRandomAttempts = getRoulette().length;
+
+        return {
+            totalMisses,
+            totalHits,
+            totalAttacks,
+            totalRandomAttempts,
+        };
+    };
+
     const instance = {
         name,
         board,
@@ -159,6 +174,7 @@ export default function Player(name) {
         getMisses,
         getHits,
         getRoulette,
+        stats,
     };
 
     return instance;
