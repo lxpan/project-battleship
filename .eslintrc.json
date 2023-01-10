@@ -13,6 +13,7 @@
     "rules": {
         "indent": ["error", 4],
         "quotes": ["error", "single"],
+        "allowTemplateLiterals": true,
         "brace-style": ["error", "stroustrup"],
         "no-console": "off",
         "no-underscore-dangle": "off"
