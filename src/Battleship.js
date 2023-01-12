@@ -76,9 +76,3 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
 
     return instance;
 }
-// View.drawBoard(10, 10);
-
-const boardDiv = document.getElementById('boardDiv');
-console.log(boardDiv);
-
-console.log('foo');
