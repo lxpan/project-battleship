@@ -20,8 +20,27 @@ export default (function View() {
         }
     }
 
+    function renderShips(boardArr, whichGrid) {
+        const bottomGrids = Array.from(
+            document.querySelectorAll(`.battleship-grid.${whichGrid} div`),
+        );
+        console.log(bottomGrids);
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                const grid = boardArr[i][j];
+
+                if (grid.getName) {
+                    const div = bottomGrids[i * 10 + j];
+                    div.classList.add('ship');
+                }
+            }
+        }
+    }
+
     return {
         createGrid,
         test,
+        renderShips,
     };
 }());

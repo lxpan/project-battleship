@@ -72,6 +72,8 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         playTurn,
         playComputerMove,
         gameStats,
+        playerOne,
+        playerTwo,
     };
 
     return instance;
