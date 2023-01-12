@@ -2,7 +2,7 @@
 
 export default (function View() {
     function test() {
-        console.log('foobar');
+        console.log('Loading View');
     }
 
     function drawBoard(gridX, gridY) {
@@ -23,5 +23,6 @@ export default (function View() {
 
     return {
         drawBoard,
+        test,
     };
 }());
