@@ -4,6 +4,9 @@ module.exports = {
     mode: 'development',
     entry: './src/app.js',
     devtool: 'inline-source-map',
+    devServer: {
+        static: './dist',
+    },
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, 'dist'),
