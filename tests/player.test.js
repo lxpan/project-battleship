@@ -1,4 +1,4 @@
-import Player from '../Player';
+import Player from '../src/Player';
 
 function ArrayOfArraysIncludesArray(arrA, arrays) {
     return JSON.stringify(arrays).includes(JSON.stringify(arrA));

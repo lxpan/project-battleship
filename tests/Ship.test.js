@@ -1,4 +1,4 @@
-import Ship from '../Ship';
+import Ship from '../src/Ship';
 
 // command message: ship is hit -> increment timesHit -> no need to return anything
 test('ship is hit', () => {
