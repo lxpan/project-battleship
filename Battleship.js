@@ -1,6 +1,7 @@
 import Player from './Player';
 import GameBoard from './Gameboard';
 import Ship from './Ship';
+import View from './View';
 
 export default function Battleship(playerName, isComputer, gridX, gridY) {
     const playerOne = Player(playerName);
@@ -75,3 +76,9 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
 
     return instance;
 }
+// View.drawBoard(10, 10);
+
+const boardDiv = document.getElementById('boardDiv');
+console.log(boardDiv);
+
+console.log('foo');
