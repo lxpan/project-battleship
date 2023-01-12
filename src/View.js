@@ -20,7 +20,7 @@ export default (function View() {
         }
     }
 
-    function renderShips(boardArr, whichDOMGrid) {
+    function renderShips(boardArr, whichDOMGrid, callback) {
         const divGrids = Array.from(
             document.querySelectorAll(`.battleship-grid.${whichDOMGrid} div`),
         );
@@ -42,9 +42,41 @@ export default (function View() {
         }
     }
 
+    function addAttackListeners(callback, boardArr) {
+        function renderTargettingGrid() {
+            const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
+
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 10; j++) {
+                    const boardGrid = boardArr[i][j];
+                    const grid = divGrids[i * 10 + j];
+
+                    if (boardGrid === 'H') {
+                        grid.textContent = 'H';
+                    }
+                    else if (boardGrid === 'x') {
+                        grid.textContent = 'x';
+                    }
+                }
+            }
+        }
+
+        const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
+
+        divGrids.forEach((grid) => {
+            grid.addEventListener('click', () => {
+                callback.playTurn(JSON.parse(grid.dataset.gridCoord));
+                callback.printBoards();
+                // re-render ships
+                renderTargettingGrid();
+            });
+        });
+    }
+
     return {
         createGrid,
         test,
         renderShips,
+        addAttackListeners,
     };
 }());

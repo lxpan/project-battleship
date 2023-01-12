@@ -45,6 +45,17 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
     }
 
     const playTurn = (move) => {
+        const resultPlayer = playerTwo.board.bottom.receiveAttack(move);
+        processAttackResult(resultPlayer, move, playerOne);
+        currentPlayer = playerTwo;
+
+        const computersMove = playerTwo.playNextMove();
+        const resultComputer = playerOne.board.bottom.receiveAttack(computersMove);
+        processAttackResult(resultComputer, computersMove, playerTwo);
+        currentPlayer = playerOne;
+    };
+
+    const _playTurn = (move) => {
         if (currentPlayer.name === 'Player') {
             const result = playerTwo.board.bottom.receiveAttack(move);
             processAttackResult(result, move, playerOne);

@@ -13,5 +13,6 @@ View.createGrid(10, 10);
 const playerBottomGrid = app.playerOne.board.bottom.getBoard();
 const playerTopGrid = app.playerOne.board.top.getBoard();
 
-View.renderShips(playerBottomGrid, 'bottom');
+View.renderShips(playerBottomGrid, 'bottom', app);
 View.renderShips(playerTopGrid, 'top');
+View.addAttackListeners(app, playerTopGrid);
