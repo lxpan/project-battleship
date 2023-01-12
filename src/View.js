@@ -20,18 +20,22 @@ export default (function View() {
         }
     }
 
-    function renderShips(boardArr, whichGrid) {
-        const bottomGrids = Array.from(
-            document.querySelectorAll(`.battleship-grid.${whichGrid} div`),
+    function renderShips(boardArr, whichDOMGrid) {
+        const divGrids = Array.from(
+            document.querySelectorAll(`.battleship-grid.${whichDOMGrid} div`),
         );
-        console.log(bottomGrids);
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                const grid = boardArr[i][j];
+                const boardGrid = boardArr[i][j];
 
-                if (grid.getName) {
-                    const div = bottomGrids[i * 10 + j];
+                // get the div that corresponds to the position in the array
+                const div = divGrids[i * 10 + j];
+                // assign coords to data attribute (used later for attacks)
+                div.dataset.gridCoord = JSON.stringify([i, j]);
+
+                // mark it as a ship div
+                if (boardGrid.getName) {
                     div.classList.add('ship');
                 }
             }
