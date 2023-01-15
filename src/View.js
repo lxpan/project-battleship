@@ -50,10 +50,10 @@ export default function View() {
                     const grid = divGrids[i * 10 + j];
 
                     if (boardGrid === 'H') {
-                        grid.textContent = 'H';
+                        grid.classList.add('hit');
                     }
                     else if (boardGrid === 'x') {
-                        grid.textContent = 'x';
+                        grid.classList.add('miss');
                     }
                 }
             }
