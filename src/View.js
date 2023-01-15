@@ -40,7 +40,7 @@ export default function View() {
         }
     }
 
-    function addAttackListeners(callback, topBoard, bottomBoard) {
+    function addEventListeners(callback, topBoard, bottomBoard) {
         function renderTargettingGrid() {
             const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
 
@@ -84,7 +84,7 @@ export default function View() {
             grid.addEventListener('click', () => {
                 callback.playTurn(JSON.parse(grid.dataset.gridCoord));
                 callback.printBoards();
-                // re-render ships
+                // update the targetting (top) grid after attack is played
                 renderTargettingGrid();
                 // update player's view (bottom grid) - AI moves straight after
                 updateBottomGrid();
@@ -95,6 +95,6 @@ export default function View() {
     return {
         createGrid,
         renderShips,
-        addAttackListeners,
+        addEventListeners,
     };
 }

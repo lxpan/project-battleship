@@ -16,4 +16,4 @@ const playerBottomGrid = app.playerOne.board.bottom.getBoard();
 
 view.renderShips(playerBottomGrid, 'bottom');
 view.renderShips(playerTopGrid, 'top');
-view.addAttackListeners(app, playerTopGrid, playerBottomGrid);
+view.addEventListeners(app, playerTopGrid, playerBottomGrid);
