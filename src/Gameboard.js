@@ -31,8 +31,8 @@ export default function GameBoard() {
 
                 // check if a ship present at current coords
                 if (grid.getName) {
-                    const shipName = grid.getName().charAt(0).toUpperCase();
-                    // const shipSymbol = grid.isSunk() ? shipName + 'x' : shipName;
+                    const shipName = grid.getSymbol();
+                    // if ship hit at location, then modify ship symbol with '!'
                     const shipSymbol = hits.has(JSON.stringify([i, j]))
                         ? shipName + hitSymbol
                         : shipName;
@@ -141,8 +141,6 @@ export default function GameBoard() {
                 shipAtTile.hit();
                 // register that ship has been hit +1
                 hits.add(JSON.stringify(position));
-                // designate hit by adding '!' symbol
-                shipAtTile.designateHitSymbol();
                 // record the position where the ship was hit
                 shipAtTile.positionsHit.add(JSON.stringify([position[0], position[1]]));
 
