@@ -82,6 +82,10 @@ export default function View() {
 
         divGrids.forEach((grid) => {
             grid.addEventListener('click', () => {
+                if (grid.classList.contains('hit') || grid.classList.contains('miss')) {
+                    return;
+                }
+
                 callback.playTurn(JSON.parse(grid.dataset.gridCoord));
                 callback.printBoards();
                 // update the targetting (top) grid after attack is played
