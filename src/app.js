@@ -6,13 +6,14 @@ console.log('Loading app.js');
 
 const app = Battleship('Player', true, 10, 10);
 app.setupGame();
-// app.printBoards();
 
-View.createGrid(10, 10);
+const view = View();
 
-const playerBottomGrid = app.playerOne.board.bottom.getBoard();
+view.createGrid(10, 10);
+
 const playerTopGrid = app.playerOne.board.top.getBoard();
+const playerBottomGrid = app.playerOne.board.bottom.getBoard();
 
-View.renderShips(playerBottomGrid, 'bottom', app);
-View.renderShips(playerTopGrid, 'top');
-View.addAttackListeners(app, playerTopGrid);
+view.renderShips(playerBottomGrid, 'bottom');
+view.renderShips(playerTopGrid, 'top');
+view.addAttackListeners(app, playerTopGrid, playerBottomGrid);

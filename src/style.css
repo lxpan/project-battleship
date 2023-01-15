@@ -26,3 +26,7 @@ body {
 .battleship-grid .ship {
     background-color: hsl(15, 100%, 50%);
 }
+
+.battleship-grid .hit {
+    background-color: hsl(63, 100%, 51%);
+}
