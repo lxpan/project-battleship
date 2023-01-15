@@ -137,8 +137,14 @@ export default function GameBoard() {
             // check tile hasn't already been hit and ship still afloat
             if (!hits.has(JSON.stringify(position)) && !targetedTile.isSunk()) {
                 const shipAtTile = targetedTile;
+
                 shipAtTile.hit();
+                // register that ship has been hit +1
                 hits.add(JSON.stringify(position));
+                // designate hit by adding '!' symbol
+                shipAtTile.designateHitSymbol();
+                // record the position where the ship was hit
+                shipAtTile.positionsHit.add(JSON.stringify([position[0], position[1]]));
 
                 if (shipAtTile.isSunk()) {
                     shipsSunk.push(shipAtTile.getName());

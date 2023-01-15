@@ -8,7 +8,10 @@ const SHIP_LENGTH = {
 
 export default function Ship(shipName) {
     const name = shipName;
+    let symbol = shipName.charAt(0).toUpperCase();
+
     let timesHit = 0;
+    const positionsHit = new Set();
 
     // amounts of hits a ship can take before it sinks (which equals its length)
     const shipHitPoints = SHIP_LENGTH;
@@ -22,6 +25,10 @@ export default function Ship(shipName) {
         return timesHit;
     }
 
+    function getPositionsHit() {
+        return positionsHit;
+    }
+
     function getTimesHit() {
         return timesHit;
     }
@@ -30,14 +37,25 @@ export default function Ship(shipName) {
         return name;
     }
 
+    function getSymbol() {
+        return symbol;
+    }
+
+    function designateHitSymbol() {
+        symbol += '!';
+    }
+
     function isSunk() {
         return shipHitPoints[name] - timesHit === 0;
     }
 
     return {
         hit,
+        positionsHit,
         getTimesHit,
         getName,
+        designateHitSymbol,
+        getSymbol,
         isSunk,
         length: SHIP_LENGTH[name],
     };
