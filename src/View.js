@@ -1,6 +1,6 @@
 /* View.js is our DOM module */
 
-export default function View(app) {
+export default function View() {
     // give View access to game logic
 
     function createGrid(gridY, gridX) {
@@ -109,11 +109,12 @@ export default function View(app) {
 
         const prepareNewGame = () => {
             const gridContainer = document.querySelector('.grid-container');
+            // unhide the game grids and "Place Ship" button
             gridContainer.classList.remove('hide');
             placeShipBtn.classList.remove('hide');
 
             app.playerOne.resetBoard();
-            console.log(app.printBoards());
+            app.printBoards();
             renderShips(null, 'bottom', true);
         };
 
