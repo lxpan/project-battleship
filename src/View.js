@@ -40,7 +40,7 @@ export default function View() {
         }
     }
 
-    function addEventListeners(callback, topBoard, bottomBoard) {
+    function addGridListeners(callback, topBoard, bottomBoard) {
         function renderTargettingGrid() {
             const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
 
@@ -96,9 +96,12 @@ export default function View() {
         });
     }
 
+    function addGameButtonListeners() {}
+
     return {
         createGrid,
         renderShips,
-        addEventListeners,
+        addGridListeners,
+        addGameButtonListeners,
     };
 }
