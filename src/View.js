@@ -1,6 +1,6 @@
 /* View.js is our DOM module */
 
-export default function View() {
+export default function View(app) {
     // give View access to game logic
 
     function createGrid(gridY, gridX) {
@@ -18,14 +18,17 @@ export default function View() {
         }
     }
 
-    function renderShips(boardArr, whichDOMGrid) {
+    function renderShips(boardArr, whichDOMGrid, reset = false) {
         const divGrids = Array.from(
             document.querySelectorAll(`.battleship-grid.${whichDOMGrid} div`),
         );
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                const boardGrid = boardArr[i][j];
+                let boardGrid = null;
+                if (boardArr) {
+                    boardGrid = boardArr[i][j];
+                }
 
                 // get the div that corresponds to the position in the array
                 const div = divGrids[i * 10 + j];
@@ -33,8 +36,12 @@ export default function View() {
                 div.dataset.gridCoord = JSON.stringify([i, j]);
 
                 // mark it as a ship div
-                if (boardGrid.getName) {
+                if (boardArr && boardGrid.getName) {
                     div.classList.add('ship');
+                }
+
+                if (reset) {
+                    div.classList = '';
                 }
             }
         }
@@ -96,7 +103,27 @@ export default function View() {
         });
     }
 
-    function addGameButtonListeners() {}
+    function addGameButtonListeners(app) {
+        const newGameBtn = document.getElementById('new-game-btn');
+        const placeShipBtn = document.getElementById('place-ships-btn');
+
+        const prepareNewGame = () => {
+            const gridContainer = document.querySelector('.grid-container');
+            gridContainer.classList.remove('hide');
+            placeShipBtn.classList.remove('hide');
+
+            app.playerOne.resetBoard();
+            console.log(app.printBoards());
+            renderShips(null, 'bottom', true);
+        };
+
+        const placeShipsDialog = () => {
+            console.log('Placing carrier...');
+        };
+
+        newGameBtn.addEventListener('click', prepareNewGame);
+        placeShipBtn.addEventListener('click', placeShipsDialog);
+    }
 
     return {
         createGrid,

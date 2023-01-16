@@ -14,6 +14,11 @@ export default function Player(name) {
         bottom: GameBoard(),
     };
 
+    const resetBoard = () => {
+        board.top = GameBoard();
+        board.bottom = GameBoard();
+    };
+
     const setupBottomBoardSpreadOut = () => {
         // full fleet to be placed
         const carrier = Ship('carrier');
@@ -175,6 +180,7 @@ export default function Player(name) {
         getHits,
         getRoulette,
         stats,
+        resetBoard,
     };
 
     return instance;
