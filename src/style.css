@@ -72,3 +72,29 @@ body {
 .battleship-grid .miss {
     background-color: hsl(0, 4%, 16%);
 }
+
+.main-gameplay-area {
+    display: grid;
+    grid-template-areas: "a b c";
+}
+
+.player-ships-area,
+.enemy-ships-area {
+    margin: 2vmin;
+    height: calc(3.6vh * 10);
+    width: 200px;
+}
+
+.player-ships-area {
+    background-color: hsl(240, 100%, 50%);
+}
+
+.enemy-ships-area {
+    background-color: hsl(0, 68%, 50%);
+}
+
+.your-ships-heading {
+    padding: 0;
+    margin: 0;
+    color: white;
+}

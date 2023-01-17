@@ -103,6 +103,10 @@ export default function View() {
         });
     }
 
+    function renderPlaceableShipsArea() {
+        const myShips = document.querySelector('.player-ships-area');
+    }
+
     function addEventListeners(app) {
         const newGameBtn = document.getElementById('new-game-btn');
         const placeShipBtn = document.getElementById('place-ships-btn');
@@ -134,14 +138,22 @@ export default function View() {
             // reset display grids
             renderShips(null, 'bottom', true);
             renderShips(null, 'top', true);
+
+            const myShips = document.querySelector('.player-ships-area');
+            const enemyShips = document.querySelector('.enemy-ships-area');
+            enemyShips.classList.remove('hide');
+            myShips.classList.remove('hide');
         };
 
         const placeShipsDialog = () => {
             console.log('Placing carrier...');
+            // draw "Your Ships" area, to allow players to select ship they like to place
+            const myShips = document.querySelector('.player-ships-area');
+            myShips.classList.remove('hide');
         };
 
         newGameBtn.addEventListener('click', prepareNewGame);
-        placeShipBtn.addEventListener('click', placeShipsDialog);
+        // placeShipBtn.addEventListener('click', placeShipsDialog);
     }
 
     return {
