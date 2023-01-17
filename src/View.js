@@ -1,6 +1,6 @@
 /* View.js is our DOM module */
-
 export default function View() {
+    let shipToPlace = null;
     // give View access to game logic
 
     function createGrid(gridY, gridX) {
@@ -103,11 +103,22 @@ export default function View() {
         });
     }
 
-    function renderPlaceableShipsArea() {
-        const myShips = document.querySelector('.player-ships-area');
+    function roundToNearest10(number) {
+        if (number % 10 === 0) {
+            return number + 10;
+        }
+
+        return Math.ceil(number / 10) * 10;
     }
 
     function addEventListeners(app) {
+        const SHIP_LENGTH = {
+            carrier: 5,
+            battleship: 4,
+            cruiser: 3,
+            submarine: 3,
+            destroyer: 2,
+        };
         const newGameBtn = document.getElementById('new-game-btn');
         const placeShipBtn = document.getElementById('place-ships-btn');
 
@@ -145,15 +156,73 @@ export default function View() {
             myShips.classList.remove('hide');
         };
 
-        const placeShipsDialog = () => {
-            console.log('Placing carrier...');
-            // draw "Your Ships" area, to allow players to select ship they like to place
+        const resetShipPlacement = () => {
+            const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
+            bottomDivs.forEach((div) => {
+                if (div.classList.contains(shipToPlace.toLowerCase())) {
+                    div.classList.remove(shipToPlace.toLowerCase());
+                }
+            });
+        };
+
+        const placeShipOnHover = (evt) => {
+            const shipClass = shipToPlace.toLowerCase();
+            const hoverPosition = JSON.parse(evt.target.dataset.gridCoord);
+            const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
+
+            const i = hoverPosition[0];
+            const j = hoverPosition[1];
+            // calculates the nth index given the associated [y, x] array coordinates
+            const basisGridIndex = i * 10 + j;
+
+            resetShipPlacement();
+
+            const shipLength = SHIP_LENGTH[shipClass];
+
+            if (1) {
+                for (let k = basisGridIndex; k < basisGridIndex + shipLength; k++) {
+                    // only show hover if whole ship can fit horizontally
+                    if (k / roundToNearest10(basisGridIndex) < 1) {
+                        const div = bottomDivs[k];
+                        div.classList.add(shipClass);
+                    }
+                }
+            }
+        };
+
+        const setupShipPlacement = () => {
             const myShips = document.querySelector('.player-ships-area');
-            myShips.classList.remove('hide');
+            const ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer'];
+            ships.forEach((ship) => {
+                const shipBtn = document.createElement('button');
+                shipBtn.textContent = ship;
+                myShips.appendChild(shipBtn);
+            });
+
+            const shipButtons = document.querySelectorAll('.player-ships-area button');
+
+            // Player ship buttons assigned listened that sets the currently selected ship
+            [...shipButtons].forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    if (shipToPlace) {
+                        resetShipPlacement();
+                    }
+
+                    shipToPlace = btn.textContent;
+                    console.log(`Currently selected ship: ${shipToPlace}`);
+                });
+            });
+
+            // Each grid cell is assigned a listener that supports ship placement on hover
+            const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
+
+            [...bottomDivs].forEach((div) => {
+                div.addEventListener('mouseover', placeShipOnHover);
+            });
         };
 
         newGameBtn.addEventListener('click', prepareNewGame);
-        // placeShipBtn.addEventListener('click', placeShipsDialog);
+        setupShipPlacement();
     }
 
     return {

@@ -65,6 +65,14 @@ body {
     background-color: lightgray;
 }
 
+.carrier,
+.battleship,
+.cruiser,
+.submarine,
+.destroyer {
+    background-color: lightgray;
+}
+
 .battleship-grid .hit {
     background-color: hsl(15, 100%, 50%);
 }
@@ -81,8 +89,12 @@ body {
 .player-ships-area,
 .enemy-ships-area {
     margin: 2vmin;
+    display: flex;
+    flex-direction: column;
+    align-self: end;
     height: calc(3.6vh * 10);
     width: 200px;
+    color: white;
 }
 
 .player-ships-area {
