@@ -18,11 +18,11 @@ app.setupGame();
 const view = View();
 
 view.createGrid(10, 10);
+view.addGameButtonListeners(app);
 
 const playerTopGrid = app.playerOne.board.top.getBoard();
 const playerBottomGrid = app.playerOne.board.bottom.getBoard();
 
 view.renderShips(playerBottomGrid, 'bottom');
 view.renderShips(playerTopGrid, 'top');
-view.addGameButtonListeners(app);
-view.addGridListeners(app, playerTopGrid, playerBottomGrid);
+// view.addGridListeners(app, playerTopGrid, playerBottomGrid);

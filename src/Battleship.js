@@ -9,8 +9,16 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
     let currentPlayer = playerOne;
 
     function setupGame() {
-        playerOne.setupBottomBoardSpreadOut();
+        // playerOne.setupBottomBoardSpreadOut();
         playerTwo.setupBottomBoard();
+    }
+
+    function resetGame() {
+        playerOne.resetBoard();
+        playerTwo.resetBoard();
+        setupGame();
+
+        printBoards();
     }
 
     const status = () => ({
@@ -79,6 +87,7 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         status,
         currentPlayer,
         setupGame,
+        resetGame,
         printBoards,
         playTurn,
         playComputerMove,

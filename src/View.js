@@ -107,15 +107,33 @@ export default function View() {
         const newGameBtn = document.getElementById('new-game-btn');
         const placeShipBtn = document.getElementById('place-ships-btn');
 
+        const deregisterGridListeners = () => {
+            const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
+            divGrids.forEach((grid) => {
+                // get rid of all existing listeners by replacing div with own deep clone
+                grid.replaceWith(grid.cloneNode(true));
+            });
+        };
+
         const prepareNewGame = () => {
             const gridContainer = document.querySelector('.grid-container');
             // unhide the game grids and "Place Ship" button
             gridContainer.classList.remove('hide');
             placeShipBtn.classList.remove('hide');
 
-            app.playerOne.resetBoard();
-            app.printBoards();
+            app.resetGame();
+            deregisterGridListeners();
+
+            // register grid event listeners, with the newly initialised boards
+            addGridListeners(
+                app,
+                app.playerOne.board.top.getBoard(),
+                app.playerOne.board.bottom.getBoard(),
+            );
+
+            // reset display grids
             renderShips(null, 'bottom', true);
+            renderShips(null, 'top', true);
         };
 
         const placeShipsDialog = () => {
