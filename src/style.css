@@ -23,6 +23,8 @@ body {
 }
 
 .game-title {
+    margin: 0;
+    padding: 0;
     font-size: 4rem;
     font-family: 'Black Ops One', cursive;
 }
