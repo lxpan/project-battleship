@@ -13,16 +13,13 @@ body.appendChild(mySplashImg);
 console.log('Loading app.js');
 
 const app = Battleship('Player', true, 10, 10);
-app.setupGame();
-
 const view = View();
 
-view.createGrid(10, 10);
-view.addGameButtonListeners(app);
-
+app.setupGame();
 const playerTopGrid = app.playerOne.board.top.getBoard();
 const playerBottomGrid = app.playerOne.board.bottom.getBoard();
 
+view.createGrid(10, 10);
 view.renderShips(playerBottomGrid, 'bottom');
 view.renderShips(playerTopGrid, 'top');
-// view.addGridListeners(app, playerTopGrid, playerBottomGrid);
+view.addEventListeners(app);

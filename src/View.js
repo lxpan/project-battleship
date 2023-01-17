@@ -103,7 +103,7 @@ export default function View() {
         });
     }
 
-    function addGameButtonListeners(app) {
+    function addEventListeners(app) {
         const newGameBtn = document.getElementById('new-game-btn');
         const placeShipBtn = document.getElementById('place-ships-btn');
 
@@ -148,6 +148,6 @@ export default function View() {
         createGrid,
         renderShips,
         addGridListeners,
-        addGameButtonListeners,
+        addEventListeners,
     };
 }
