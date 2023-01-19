@@ -1,6 +1,7 @@
 /* View.js is our DOM module */
 export default function View() {
     let shipToPlace = null;
+    let shipOrientation = 'horizontal';
     // give View access to game logic
 
     function createGrid(gridY, gridX) {
@@ -167,19 +168,20 @@ export default function View() {
 
         const placeShipOnHover = (evt) => {
             const shipClass = shipToPlace.toLowerCase();
-            const hoverPosition = JSON.parse(evt.target.dataset.gridCoord);
+            const cursorPosition = JSON.parse(evt.target.dataset.gridCoord);
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
 
-            const i = hoverPosition[0];
-            const j = hoverPosition[1];
-            // calculates the nth index given the associated [y, x] array coordinates
+            const i = cursorPosition[0];
+            const j = cursorPosition[1];
+            // calculates the flat array index given the associated [y, x] array coordinates
             const basisGridIndex = i * 10 + j;
 
             resetShipPlacement();
 
+            // length depends on type of ship
             const shipLength = SHIP_LENGTH[shipClass];
 
-            if (1) {
+            if (shipOrientation === 'horizontal') {
                 for (let k = basisGridIndex; k < basisGridIndex + shipLength; k++) {
                     // only show hover if whole ship can fit horizontally
                     if (k / roundToNearest10(basisGridIndex) < 1) {
@@ -188,8 +190,18 @@ export default function View() {
                     }
                 }
             }
+            else if (shipOrientation === 'vertical') {
+                for (let k = basisGridIndex; k < basisGridIndex + shipLength * 10; k += 10) {
+                    // check if ship body is within bounds of grid
+                    if (k < 100) {
+                        const div = bottomDivs[k];
+                        div.classList.add(shipClass);
+                    }
+                }
+            }
         };
 
+        // *** requires refactoring ***
         const setupShipPlacement = () => {
             const myShips = document.querySelector('.player-ships-area');
             const ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer'];
@@ -201,8 +213,25 @@ export default function View() {
 
             const shipButtons = document.querySelectorAll('.player-ships-area button');
 
-            // Player ship buttons assigned listened that sets the currently selected ship
+            // Clicking on ship button sets the currently selected ship to that ship
             [...shipButtons].forEach((btn) => {
+                if (btn.textContent === 'Change Orientation') {
+                    btn.addEventListener('click', () => {
+                        if (shipToPlace) {
+                            resetShipPlacement();
+                        }
+                        if (shipOrientation === 'horizontal') {
+                            shipOrientation = 'vertical';
+                            console.log(`Ship orientation: ${shipOrientation}`);
+                        }
+                        else {
+                            shipOrientation = 'horizontal';
+                            console.log(`Ship orientation: ${shipOrientation}`);
+                        }
+                    });
+                    return;
+                }
+
                 btn.addEventListener('click', () => {
                     if (shipToPlace) {
                         resetShipPlacement();
