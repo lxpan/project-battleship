@@ -18,17 +18,24 @@ describe('main game loop', () => {
 
         // game loop
         let gameOver = false;
-        const playerMoves = [[0, 4], [6, 4], [1, 4], app.playComputerMove];
+
+        const movesPlayed = [
+            [
+                [0, 4],
+                [6, 4],
+            ],
+            [[1, 4], app.playComputerMove],
+        ];
 
         while (!gameOver) {
             // player plays a move, then the computer
-            playerMoves.forEach((move) => {
+            movesPlayed.forEach((move) => {
                 // use lazy evaluation of move function to provide it up to date board state
-                if (typeof move === 'function') {
-                    app._playTurnSequential(move());
+                if (typeof move[1] === 'function') {
+                    app.playTurn(move[0], move[1]());
                 }
                 else {
-                    app._playTurnSequential(move);
+                    app.playTurn(move[0], move[1]);
                 }
 
                 app.printBoards();

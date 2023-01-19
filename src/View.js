@@ -94,7 +94,7 @@ export default function View() {
                     return;
                 }
 
-                callback.playTurn(JSON.parse(grid.dataset.gridCoord));
+                callback.playTurn(JSON.parse(grid.dataset.gridCoord), callback.playComputerMove());
                 callback.printBoards();
                 // update the targetting (top) grid after attack is played
                 renderTargettingGrid();

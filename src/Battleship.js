@@ -52,28 +52,15 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         }
     }
 
-    const playTurn = (move) => {
+    const playTurn = (move, cpuMove) => {
         const resultPlayer = playerTwo.board.bottom.receiveAttack(move);
         processAttackResult(resultPlayer, move, playerOne);
         currentPlayer = playerTwo;
 
-        const computersMove = playerTwo.playNextMove();
+        const computersMove = cpuMove;
         const resultComputer = playerOne.board.bottom.receiveAttack(computersMove);
         processAttackResult(resultComputer, computersMove, playerTwo);
         currentPlayer = playerOne;
-    };
-
-    const _playTurnSequential = (move) => {
-        if (currentPlayer.name === 'Player') {
-            const result = playerTwo.board.bottom.receiveAttack(move);
-            processAttackResult(result, move, playerOne);
-            currentPlayer = playerTwo;
-        }
-        else if (currentPlayer.name === 'Computer') {
-            const result = playerOne.board.bottom.receiveAttack(move);
-            processAttackResult(result, move, playerTwo);
-            currentPlayer = playerOne;
-        }
     };
 
     const playComputerMove = () => playerTwo.playNextMove();
@@ -90,7 +77,6 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         resetGame,
         printBoards,
         playTurn,
-        _playTurnSequential,
         playComputerMove,
         gameStats,
         playerOne,
