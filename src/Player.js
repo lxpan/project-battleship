@@ -27,13 +27,18 @@ export default function Player(name) {
         board.bottom = GameBoard();
     };
 
+    const placeShip = (shipName, basisPosition, orientation) => {
+        board.bottom.placeShip(ships[shipName], basisPosition, orientation);
+        ships[shipName].placed = true;
+    };
+
     const setupBottomBoardSpreadOut = () => {
         // full fleet to be placed
-        board.bottom.placeShip(ships.carrier, [2, 4], 'h');
-        board.bottom.placeShip(ships.battleship, [8, 6], 'h');
-        board.bottom.placeShip(ships.cruiser, [2, 2], 'v');
-        board.bottom.placeShip(ships.submarine, [5, 4], 'v');
-        board.bottom.placeShip(ships.destroyer, [8, 1], 'v');
+        placeShip('carrier', [2, 4], 'h');
+        placeShip('battleship', [8, 6], 'h');
+        placeShip('cruiser', [2, 2], 'v');
+        placeShip('submarine', [5, 4], 'v');
+        placeShip('destroyer', [8, 1], 'v');
     };
 
     const setupBottomBoard = () => {
@@ -164,6 +169,7 @@ export default function Player(name) {
     const instance = {
         name,
         board,
+        ships,
         setupBottomBoard,
         setupBottomBoardSpreadOut,
         renderPlayerBoards,

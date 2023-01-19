@@ -119,4 +119,18 @@ describe('main game loop', () => {
         // validate that AI attacks every round
         expect(totalAttacks).toBe(numRounds);
     });
+
+    test('check all ships placed after preset placement function called', () => {
+        const computer = Player('Computer');
+        const player = Player('Player');
+        player.setupBottomBoardSpreadOut();
+
+        // check that all player ships have been marked as placed
+        const playerShipsPlaced = Object.values(player.ships).map((val) => val.placed);
+        expect(playerShipsPlaced.every((val) => val === true)).toBe(true);
+
+        // check that none of AI's ships have been marked as placed
+        const computerShipsPlaced = Object.values(computer.ships).map((val) => val.placed);
+        expect(computerShipsPlaced.every((val) => val === false)).toBe(true);
+    });
 });

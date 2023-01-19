@@ -9,6 +9,8 @@ const SHIP_LENGTH = {
 export default function Ship(shipName) {
     const name = shipName;
     const symbol = shipName.charAt(0).toUpperCase();
+    // tracks if ship has been placed on the board
+    let _placed = false;
 
     let timesHit = 0;
     const positionsHit = new Set();
@@ -19,6 +21,10 @@ export default function Ship(shipName) {
     if (!(shipName in shipHitPoints)) {
         throw new Error();
     }
+
+    // function setPlaced() {
+    //     placed = true;
+    // }
 
     function hit() {
         timesHit += 1;
@@ -49,5 +55,11 @@ export default function Ship(shipName) {
         getSymbol,
         isSunk,
         length: SHIP_LENGTH[name],
+        set placed(placed) {
+            _placed = placed;
+        },
+        get placed() {
+            return _placed;
+        },
     };
 }
