@@ -120,7 +120,8 @@ export default function View() {
             submarine: 3,
             destroyer: 2,
         };
-        const newGameBtn = document.getElementById('new-game-btn');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const resetGameBtn = document.getElementById('reset-game-btn');
         const placeShipBtn = document.getElementById('place-ships-btn');
 
         const deregisterGridListeners = () => {
@@ -131,13 +132,16 @@ export default function View() {
             });
         };
 
-        const prepareNewGame = () => {
+        const startGame = (reset) => {
             const gridContainer = document.querySelector('.grid-container');
             // unhide the game grids and "Place Ship" button
             gridContainer.classList.remove('hide');
             placeShipBtn.classList.remove('hide');
 
-            app.resetGame();
+            if (reset) {
+                app.resetGame();
+            }
+
             deregisterGridListeners();
 
             // register grid event listeners, with the newly initialised boards
@@ -268,7 +272,12 @@ export default function View() {
             });
         };
 
-        newGameBtn.addEventListener('click', prepareNewGame);
+        console.log(startGameBtn);
+
+        startGameBtn.addEventListener('click', startGame);
+        resetGameBtn.addEventListener('click', () => {
+            startGame(true);
+        });
         setupShipPlacement();
     }
 
