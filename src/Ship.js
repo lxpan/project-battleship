@@ -8,11 +8,13 @@ const SHIP_LENGTH = {
 
 export default function Ship(shipName) {
     const name = shipName;
+    // represents ship symbol as represented in board array
     const symbol = shipName.charAt(0).toUpperCase();
     // tracks if ship has been placed on the board
     let _placed = false;
-
+    // total number of times ship has been hit
     let timesHit = 0;
+    // where the ship has been hit on the grid
     const positionsHit = new Set();
 
     // amounts of hits a ship can take before it sinks (which equals its length)
@@ -21,10 +23,6 @@ export default function Ship(shipName) {
     if (!(shipName in shipHitPoints)) {
         throw new Error();
     }
-
-    // function setPlaced() {
-    //     placed = true;
-    // }
 
     function hit() {
         timesHit += 1;
