@@ -5,6 +5,14 @@ export default function Player(name) {
     // BOTTOM grid: players' own ships
     // TOP grid: players' targetting grid for recording attacks on the enemy
 
+    const ships = {
+        carrier: Ship('carrier'),
+        battleship: Ship('battleship'),
+        cruiser: Ship('cruiser'),
+        submarine: Ship('submarine'),
+        destroyer: Ship('destroyer'),
+    };
+
     const hits = new Set();
     const misses = new Set();
     const gridRoulette = [];
@@ -21,31 +29,19 @@ export default function Player(name) {
 
     const setupBottomBoardSpreadOut = () => {
         // full fleet to be placed
-        const carrier = Ship('carrier');
-        const battleship = Ship('battleship');
-        const cruiser = Ship('cruiser');
-        const submarine = Ship('submarine');
-        const destroyer = Ship('destroyer');
-
-        board.bottom.placeShip(carrier, [2, 4], 'h');
-        board.bottom.placeShip(battleship, [8, 6], 'h');
-        board.bottom.placeShip(cruiser, [2, 2], 'v');
-        board.bottom.placeShip(submarine, [5, 4], 'v');
-        board.bottom.placeShip(destroyer, [8, 1], 'v');
+        board.bottom.placeShip(ships.carrier, [2, 4], 'h');
+        board.bottom.placeShip(ships.battleship, [8, 6], 'h');
+        board.bottom.placeShip(ships.cruiser, [2, 2], 'v');
+        board.bottom.placeShip(ships.submarine, [5, 4], 'v');
+        board.bottom.placeShip(ships.destroyer, [8, 1], 'v');
     };
 
     const setupBottomBoard = () => {
-        const carrier = Ship('carrier');
-        const battleship = Ship('battleship');
-        const cruiser = Ship('cruiser');
-        const submarine = Ship('submarine');
-        const destroyer = Ship('destroyer');
-
-        board.bottom.placeShip(carrier, [0, 0], 'v');
-        board.bottom.placeShip(battleship, [0, 1], 'v');
-        board.bottom.placeShip(cruiser, [0, 2], 'v');
-        board.bottom.placeShip(submarine, [0, 3], 'v');
-        board.bottom.placeShip(destroyer, [0, 4], 'v');
+        board.bottom.placeShip(ships.carrier, [0, 0], 'v');
+        board.bottom.placeShip(ships.battleship, [0, 1], 'v');
+        board.bottom.placeShip(ships.cruiser, [0, 2], 'v');
+        board.bottom.placeShip(ships.submarine, [0, 3], 'v');
+        board.bottom.placeShip(ships.destroyer, [0, 4], 'v');
     };
 
     // render both top and bottom boards
