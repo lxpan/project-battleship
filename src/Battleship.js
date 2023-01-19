@@ -15,7 +15,11 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
 
     function resetGame() {
         playerOne.resetBoard();
+        playerOne.resetShips();
+
         playerTwo.resetBoard();
+        playerTwo.resetShips();
+
         setupGame();
 
         printBoards();

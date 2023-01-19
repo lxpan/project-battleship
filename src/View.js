@@ -152,8 +152,9 @@ export default function View() {
             );
 
             // reset display grids
-            renderShips(app.playerOne.board.bottom.getBoard(), 'bottom', true);
+            // renderShips(app.playerOne.board.bottom.getBoard(), 'bottom', true);
             renderShips(null, 'top', true);
+            renderShips(null, 'bottom', true);
 
             const myShips = document.querySelector('.player-ships-area');
             const enemyShips = document.querySelector('.enemy-ships-area');
