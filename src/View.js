@@ -1,7 +1,7 @@
 /* View.js is our DOM module */
 export default function View() {
     let shipToPlace = null;
-    let shipOrientation = 'horizontal';
+    let shipOrientation = 'h';
     // give View access to game logic
 
     function createGrid(gridY, gridX) {
@@ -148,7 +148,7 @@ export default function View() {
             );
 
             // reset display grids
-            renderShips(null, 'bottom', true);
+            renderShips(app.playerOne.board.bottom.getBoard(), 'bottom', true);
             renderShips(null, 'top', true);
 
             const myShips = document.querySelector('.player-ships-area');
@@ -166,7 +166,24 @@ export default function View() {
             });
         };
 
-        const placeShipOnHover = (evt) => {
+        const placeShipOnClick = (evt) => {
+            // shipToPlace;
+            // shipOrientation;
+            const shipName = shipToPlace.toLowerCase();
+            const coords = JSON.parse(evt.target.dataset.gridCoord);
+            console.log(`name: ${shipName}, coord: ${coords}, orientation: ${shipOrientation}`);
+            console.log(app.playerOne.ships);
+
+            if (app.playerOne.ships[shipName].placed === true) {
+                console.log(`${shipName} already placed!`);
+                return;
+            }
+
+            app.playerOne.placeShip(shipName, coords, shipOrientation);
+            renderShips(app.playerOne.board.bottom.getBoard(), 'bottom');
+        };
+
+        const showShipOutlineOnHover = (evt) => {
             const shipClass = shipToPlace.toLowerCase();
             const cursorPosition = JSON.parse(evt.target.dataset.gridCoord);
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
@@ -181,7 +198,7 @@ export default function View() {
             // length depends on type of ship
             const shipLength = SHIP_LENGTH[shipClass];
 
-            if (shipOrientation === 'horizontal') {
+            if (shipOrientation === 'h') {
                 for (let k = basisGridIndex; k < basisGridIndex + shipLength; k++) {
                     // only show hover if whole ship can fit horizontally
                     if (k / roundToNearest10(basisGridIndex) < 1) {
@@ -190,7 +207,7 @@ export default function View() {
                     }
                 }
             }
-            else if (shipOrientation === 'vertical') {
+            else if (shipOrientation === 'v') {
                 for (let k = basisGridIndex; k < basisGridIndex + shipLength * 10; k += 10) {
                     // check if ship body is within bounds of grid
                     if (k < 100) {
@@ -220,12 +237,12 @@ export default function View() {
                         if (shipToPlace) {
                             resetShipPlacement();
                         }
-                        if (shipOrientation === 'horizontal') {
-                            shipOrientation = 'vertical';
+                        if (shipOrientation === 'h') {
+                            shipOrientation = 'v';
                             console.log(`Ship orientation: ${shipOrientation}`);
                         }
                         else {
-                            shipOrientation = 'horizontal';
+                            shipOrientation = 'h';
                             console.log(`Ship orientation: ${shipOrientation}`);
                         }
                     });
@@ -246,7 +263,8 @@ export default function View() {
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
 
             [...bottomDivs].forEach((div) => {
-                div.addEventListener('mouseover', placeShipOnHover);
+                div.addEventListener('mouseover', showShipOutlineOnHover);
+                div.addEventListener('click', placeShipOnClick);
             });
         };
 

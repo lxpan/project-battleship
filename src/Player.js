@@ -170,6 +170,7 @@ export default function Player(name) {
         name,
         board,
         ships,
+        placeShip,
         setupBottomBoard,
         setupBottomBoardSpreadOut,
         renderPlayerBoards,
