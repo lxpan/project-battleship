@@ -63,7 +63,7 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         currentPlayer = playerOne;
     };
 
-    const _playTurn = (move) => {
+    const _playTurnSequential = (move) => {
         if (currentPlayer.name === 'Player') {
             const result = playerTwo.board.bottom.receiveAttack(move);
             processAttackResult(result, move, playerOne);
@@ -90,6 +90,7 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         resetGame,
         printBoards,
         playTurn,
+        _playTurnSequential,
         playComputerMove,
         gameStats,
         playerOne,

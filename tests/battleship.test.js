@@ -11,8 +11,10 @@ describe('main game loop', () => {
     test('Main game loop', () => {
         // set up new game - create players and gameboards
         const app = Battleship('Player', true, 10, 10);
-        // populate gameboard with predetermined coords (for ships)
+        // populate computer's board with preset ship placements
         app.setupGame();
+        // populate player's board with preset ship placements
+        app.playerOne.setupBottomBoardSpreadOut();
 
         // game loop
         let gameOver = false;
@@ -23,10 +25,10 @@ describe('main game loop', () => {
             playerMoves.forEach((move) => {
                 // use lazy evaluation of move function to provide it up to date board state
                 if (typeof move === 'function') {
-                    app.playTurn(move());
+                    app._playTurnSequential(move());
                 }
                 else {
-                    app.playTurn(move);
+                    app._playTurnSequential(move);
                 }
 
                 app.printBoards();
