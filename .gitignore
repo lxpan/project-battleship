@@ -1,6 +1,7 @@
 # Ignore everything in the root
 /*
 # Un-ignore all of subtree
+!tests/
 !src/
 !dist/index.html
 !.babelrc
