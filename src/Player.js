@@ -27,6 +27,14 @@ export default function Player(name) {
         board.bottom = GameBoard();
     };
 
+    const resetShips = () => {
+        ships.carrier = Ship('carrier');
+        ships.battleship = Ship('battleship');
+        ships.cruiser = Ship('cruiser');
+        ships.submarine = Ship('submarine');
+        ships.destroyer = Ship('destroyer');
+    };
+
     const placeShip = (shipName, basisPosition, orientation) => {
         board.bottom.placeShip(ships[shipName], basisPosition, orientation);
         ships[shipName].placed = true;
@@ -184,6 +192,7 @@ export default function Player(name) {
         getRoulette,
         stats,
         resetBoard,
+        resetShips,
     };
 
     return instance;
