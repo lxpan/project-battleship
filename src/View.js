@@ -183,8 +183,8 @@ export default function View() {
         const placeShipOnClick = (evt) => {
             const shipName = shipToPlace.toLowerCase();
             const coords = JSON.parse(evt.target.dataset.gridCoord);
-            console.log(`name: ${shipName}, coord: ${coords}, orientation: ${shipOrientation}`);
-            console.log(app.playerOne.ships);
+            // console.log(`name: ${shipName}, coord: ${coords}, orientation: ${shipOrientation}`);
+            // console.log(app.playerOne.ships);
 
             // do not place the ship if already placed
             if (app.playerOne.ships[shipName].placed === true) {
@@ -201,10 +201,7 @@ export default function View() {
             }
             catch (err) {
                 const playerMissionLog = document.querySelector('.player-mission-log');
-                const currentEntries = document.querySelectorAll('.player-mission-log p');
                 const newEntry = document.createElement('p');
-
-                console.log(`Queue length: ${logQueue.length}`);
                 newEntry.textContent = `Cannot place ${shipName}: tile is occupied!`;
 
                 if (logQueue.length >= 6) {
