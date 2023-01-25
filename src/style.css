@@ -101,6 +101,7 @@ body {
     width: 200px;
     border: solid 1px black;
     font-size: .9rem;
+    overflow: scroll;
 }
 
 .player-ships-area,
