@@ -104,6 +104,17 @@ body {
     overflow: scroll;
 }
 
+.player-mission-log--list,
+.enemy-mission-log--list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.player-mission-log--list li,
+.enemy-mission-log--list li {
+    margin: 8px 0;
+}
+
 .player-ships-area,
 .enemy-ships-area {
     margin: 2vmin;

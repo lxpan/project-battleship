@@ -201,8 +201,8 @@ export default function View() {
                 renderShips(app.playerOne.board.bottom.getBoard(), 'bottom');
             }
             catch (err) {
-                const playerMissionLog = document.querySelector('.player-mission-log');
-                const newEntry = document.createElement('p');
+                const playerMissionLogList = document.querySelector('.player-mission-log--list');
+                const newEntry = document.createElement('li');
                 newEntry.textContent = `Cannot place ${shipName}: tile is occupied!`;
 
                 if (logQueue.length >= MISSION_LOG_SIZE) {
@@ -211,11 +211,11 @@ export default function View() {
                     // add new entry to end of queue
                     logQueue.push(newEntry);
                     // replace all mission log children with queued nodes
-                    playerMissionLog.replaceChildren(...logQueue);
+                    playerMissionLogList.replaceChildren(...logQueue);
                 }
                 else {
                     logQueue.push(newEntry);
-                    playerMissionLog.appendChild(newEntry);
+                    playerMissionLogList.appendChild(newEntry);
                 }
             }
         };
