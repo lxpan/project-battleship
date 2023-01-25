@@ -95,14 +95,12 @@ body {
 
 .player-mission-log,
 .enemy-mission-log {
-    border: solid 1px black;
     margin: 2vmin;
-    display: flex;
-    flex-direction: column;
-    /* align-self: end; */
+    padding: 10px;
     height: calc(3.6vh * 10);
     width: 200px;
-    /* color: white; */
+    border: solid 1px black;
+    font-size: .9rem;
 }
 
 .player-ships-area,

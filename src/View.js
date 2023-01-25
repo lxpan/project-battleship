@@ -2,6 +2,7 @@
 export default function View() {
     let shipToPlace = null;
     let shipOrientation = 'h';
+    const logQueue = [];
     // give View access to game logic
 
     function createGrid(gridY, gridX) {
@@ -112,6 +113,14 @@ export default function View() {
         return Math.ceil(number / 10) * 10;
     }
 
+    function convertArrayToNodeList(arrayOfNodes) {
+        const fragment = document.createDocumentFragment();
+        arrayOfNodes.forEach((item) => {
+            fragment.appendChild(item.cloneNode());
+        });
+        return fragment.childNodes;
+    }
+
     function addEventListeners(app) {
         const SHIP_LENGTH = {
             carrier: 5,
@@ -172,20 +181,45 @@ export default function View() {
         };
 
         const placeShipOnClick = (evt) => {
-            // shipToPlace;
-            // shipOrientation;
             const shipName = shipToPlace.toLowerCase();
             const coords = JSON.parse(evt.target.dataset.gridCoord);
             console.log(`name: ${shipName}, coord: ${coords}, orientation: ${shipOrientation}`);
             console.log(app.playerOne.ships);
 
+            // do not place the ship if already placed
             if (app.playerOne.ships[shipName].placed === true) {
                 console.log(`${shipName} already placed!`);
                 return;
             }
+            // if current tile is occupied, display error in view
 
-            app.playerOne.placeShip(shipName, coords, shipOrientation);
-            renderShips(app.playerOne.board.bottom.getBoard(), 'bottom');
+            try {
+                // place selected ship on board
+                app.playerOne.placeShip(shipName, coords, shipOrientation);
+                // update bottom grid to show newly placed ship
+                renderShips(app.playerOne.board.bottom.getBoard(), 'bottom');
+            }
+            catch (err) {
+                const playerMissionLog = document.querySelector('.player-mission-log');
+                const currentEntries = document.querySelectorAll('.player-mission-log p');
+                const newEntry = document.createElement('p');
+
+                console.log(`Queue length: ${logQueue.length}`);
+                newEntry.textContent = `Cannot place ${shipName}: tile is occupied!`;
+
+                if (logQueue.length >= 6) {
+                    // remove first element
+                    logQueue.shift();
+                    // add new entry to end of queue
+                    logQueue.push(newEntry);
+                    // replace all mission log children with queued nodes
+                    playerMissionLog.replaceChildren(...logQueue);
+                }
+                else {
+                    logQueue.push(newEntry);
+                    playerMissionLog.appendChild(newEntry);
+                }
+            }
         };
 
         const showShipOutlineOnHover = (evt) => {
@@ -267,6 +301,7 @@ export default function View() {
             // Each grid cell is assigned a listener that supports ship placement on hover
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
 
+            // for each bottom grid tile, add listeners for ship placement
             [...bottomDivs].forEach((div) => {
                 div.addEventListener('mouseover', showShipOutlineOnHover);
                 div.addEventListener('click', placeShipOnClick);
