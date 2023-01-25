@@ -2,6 +2,7 @@
 export default function View() {
     let shipToPlace = null;
     let shipOrientation = 'h';
+    const MISSION_LOG_SIZE = 6;
     const logQueue = [];
     // give View access to game logic
 
@@ -204,7 +205,7 @@ export default function View() {
                 const newEntry = document.createElement('p');
                 newEntry.textContent = `Cannot place ${shipName}: tile is occupied!`;
 
-                if (logQueue.length >= 6) {
+                if (logQueue.length >= MISSION_LOG_SIZE) {
                     // remove first element
                     logQueue.shift();
                     // add new entry to end of queue

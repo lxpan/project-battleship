@@ -100,7 +100,7 @@ body {
     height: calc(3.6vh * 10);
     width: 200px;
     border: solid 1px black;
-    font-size: .9rem;
+    font-size: .8rem;
     overflow: scroll;
 }
 
