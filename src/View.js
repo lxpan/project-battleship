@@ -1,6 +1,6 @@
 /* View.js is our DOM module */
 export default function View() {
-    const gameReadyToStart = false;
+    let gameReadyToStart = false;
     let shipToPlace = null;
     let shipOrientation = 'h';
     const MISSION_LOG_SIZE = 6;
@@ -205,6 +205,11 @@ export default function View() {
                 app.playerOne.placeShip(shipName, coords, shipOrientation);
                 // update bottom grid to show newly placed ship
                 renderShips(app.playerOne.board.bottom.getBoard(), 'bottom');
+
+                // game is ready to start after all ships placed
+                if (app.playerOne.allShipsPlaced()) {
+                    gameReadyToStart = true;
+                }
             }
             catch (err) {
                 const playerMissionLogList = document.querySelector('.player-mission-log--list');

@@ -22,6 +22,8 @@ export default function Player(name) {
         bottom: GameBoard(),
     };
 
+    const allShipsPlaced = () => Object.values(ships).every((ship) => ship.placed === true);
+
     const resetBoard = () => {
         board.top = GameBoard();
         board.bottom = GameBoard();
@@ -193,6 +195,7 @@ export default function Player(name) {
         stats,
         resetBoard,
         resetShips,
+        allShipsPlaced,
     };
 
     return instance;
