@@ -23,3 +23,8 @@ view.createGrid(10, 10);
 view.renderShips(playerBottomGrid, 'bottom');
 view.renderShips(playerTopGrid, 'top');
 view.addEventListeners(app);
+view.addGridListeners(
+    app,
+    app.playerOne.board.top.getBoard(),
+    app.playerOne.board.bottom.getBoard(),
+);
