@@ -1,10 +1,10 @@
 /* View.js is our DOM module */
 export default function View() {
+    const gameReadyToStart = false;
     let shipToPlace = null;
     let shipOrientation = 'h';
     const MISSION_LOG_SIZE = 6;
     const logQueue = [];
-    // give View access to game logic
 
     function createGrid(gridY, gridX) {
         const battleshipGridTop = document.querySelector('.battleship-grid.top');
@@ -50,6 +50,13 @@ export default function View() {
         }
     }
 
+    function sendErrorToMissionLog(errorStr) {
+        const playerMissionLogList = document.querySelector('.player-mission-log--list');
+        const newEntry = document.createElement('li');
+        newEntry.textContent = errorStr;
+        playerMissionLogList.appendChild(newEntry);
+    }
+
     function addGridListeners(callback, topBoard, bottomBoard) {
         function renderTargettingGrid() {
             const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
@@ -92,6 +99,11 @@ export default function View() {
 
         divGrids.forEach((grid) => {
             grid.addEventListener('click', () => {
+                if (!gameReadyToStart) {
+                    sendErrorToMissionLog('All ships must be placed before game can start.');
+                    return;
+                }
+
                 if (grid.classList.contains('hit') || grid.classList.contains('miss')) {
                     return;
                 }
@@ -144,6 +156,8 @@ export default function View() {
 
         const startGame = (reset) => {
             app.printBoards();
+
+            // if(!gameReadyToStart)
 
             if (reset) {
                 // resets board and ships for both players
