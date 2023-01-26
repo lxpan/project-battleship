@@ -232,6 +232,11 @@ export default function View() {
         };
 
         const showShipOutlineOnHover = (evt) => {
+            // do not generate outline if all ships have been placed
+            if (app.playerOne.allShipsPlaced()) {
+                return;
+            }
+
             const shipClass = shipToPlace.toLowerCase();
             const cursorPosition = JSON.parse(evt.target.dataset.gridCoord);
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
@@ -246,6 +251,7 @@ export default function View() {
             // length depends on type of ship
             const shipLength = SHIP_LENGTH[shipClass];
 
+            // generate horizontal ship outline
             if (shipOrientation === 'h') {
                 for (let k = basisGridIndex; k < basisGridIndex + shipLength; k++) {
                     // only show hover if whole ship can fit horizontally
@@ -255,6 +261,7 @@ export default function View() {
                     }
                 }
             }
+            // generate vertical ship outline
             else if (shipOrientation === 'v') {
                 for (let k = basisGridIndex; k < basisGridIndex + shipLength * 10; k += 10) {
                     // check if ship body is within bounds of grid
