@@ -143,33 +143,25 @@ export default function View() {
         };
 
         const startGame = (reset) => {
-            const gridContainer = document.querySelector('.grid-container');
-            // unhide the game grids and "Place Ship" button
-            gridContainer.classList.remove('hide');
-            placeShipBtn.classList.remove('hide');
+            app.printBoards();
 
             if (reset) {
+                // resets board and ships for both players
                 app.resetGame();
+                // re-initialises DOM view of top and bottom board
+                renderShips(null, 'top', true);
+                renderShips(null, 'bottom', true);
+                // remove event listeners from grid
+                deregisterGridListeners();
+                // re-add the event listeners for player
+                addGridListeners(
+                    app,
+                    app.playerOne.board.top.getBoard(),
+                    app.playerOne.board.bottom.getBoard(),
+                );
+                // place AI's ships
+                app.setupGame();
             }
-
-            deregisterGridListeners();
-
-            // register grid event listeners, with the newly initialised boards
-            addGridListeners(
-                app,
-                app.playerOne.board.top.getBoard(),
-                app.playerOne.board.bottom.getBoard(),
-            );
-
-            // reset display grids
-            // renderShips(app.playerOne.board.bottom.getBoard(), 'bottom', true);
-            renderShips(null, 'top', true);
-            renderShips(null, 'bottom', true);
-
-            const myShips = document.querySelector('.player-ships-area');
-            const enemyShips = document.querySelector('.enemy-ships-area');
-            enemyShips.classList.remove('hide');
-            myShips.classList.remove('hide');
         };
 
         const resetShipPlacement = () => {
@@ -306,9 +298,11 @@ export default function View() {
             });
         };
 
-        console.log(startGameBtn);
+        // console.log(startGameBtn);
 
-        startGameBtn.addEventListener('click', startGame);
+        startGameBtn.addEventListener('click', () => {
+            startGame(false);
+        });
         resetGameBtn.addEventListener('click', () => {
             startGame(true);
         });
