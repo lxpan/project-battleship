@@ -74,6 +74,19 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         playerTwo: playerTwo.stats(),
     });
 
+    const victoryStatus = () => {
+        // player wins when AI has lost all ships
+        if (playerTwo.board.bottom.haveAllShipsSunk()) {
+            return 1;
+        }
+        // player loses when they have lost all ships
+        if (playerOne.board.bottom.haveAllShipsSunk()) {
+            return -1;
+        }
+        // otherwise game is still in progress
+        return 0;
+    };
+
     const instance = {
         status,
         currentPlayer,
@@ -85,6 +98,7 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
         gameStats,
         playerOne,
         playerTwo,
+        victoryStatus,
     };
 
     return instance;

@@ -115,6 +115,25 @@ export default function View() {
                 // update player's view (bottom grid) - AI moves straight after
                 updateBottomGrid();
             });
+
+            grid.addEventListener('click', () => {
+                switch (callback.victoryStatus()) {
+                    case 1: {
+                        alert('You have won!');
+                        break;
+                    }
+                    case -1: {
+                        alert('You have lost!');
+                        break;
+                    }
+                    case 0: {
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            });
         });
     }
 
