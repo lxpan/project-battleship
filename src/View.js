@@ -58,6 +58,13 @@ export default function View() {
     }
 
     function addGridListeners(callback, topBoard, bottomBoard) {
+        const topGridDivElements = Array.from(
+            document.querySelectorAll(`.battleship-grid.top div`),
+        );
+        const bottomGridDivElements = Array.from(
+            document.querySelectorAll(`.battleship-grid.bottom div`),
+        );
+
         function renderTargettingGrid() {
             const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
 
@@ -77,14 +84,12 @@ export default function View() {
         }
 
         function updateBottomGrid() {
-            const gridDivs = Array.from(document.querySelectorAll(`.battleship-grid.bottom div`));
-
             for (let i = 0; i < 10; i++) {
                 for (let j = 0; j < 10; j++) {
                     const boardGrid = bottomBoard[i][j];
 
                     // get the div that corresponds to the position in the array
-                    const div = gridDivs[i * 10 + j];
+                    const div = bottomGridDivElements[i * 10 + j];
                     // assign coords to data attribute (used later for attacks)
                     // div.dataset.gridCoord = JSON.stringify([i, j]);
 
@@ -95,28 +100,30 @@ export default function View() {
             }
         }
 
-        const divGrids = Array.from(document.querySelectorAll(`.battleship-grid.top div`));
-
-        divGrids.forEach((grid) => {
-            grid.addEventListener('click', () => {
+        const addGameLoopClickListener = (_grid) => {
+            // the main "game loop"
+            _grid.addEventListener('click', () => {
                 if (!gameReadyToStart) {
                     sendErrorToMissionLog('All ships must be placed before game can start.');
                     return;
                 }
 
-                if (grid.classList.contains('hit') || grid.classList.contains('miss')) {
+                if (_grid.classList.contains('hit') || _grid.classList.contains('miss')) {
                     return;
                 }
 
-                callback.playTurn(JSON.parse(grid.dataset.gridCoord), callback.playComputerMove());
+                callback.playTurn(JSON.parse(_grid.dataset.gridCoord), callback.playComputerMove());
                 callback.printBoards();
                 // update the targetting (top) grid after attack is played
                 renderTargettingGrid();
                 // update player's view (bottom grid) - AI moves straight after
                 updateBottomGrid();
             });
+        };
 
-            grid.addEventListener('click', () => {
+        const addVictoryAlertListener = (_grid) => {
+            // checks if player has won or lost
+            _grid.addEventListener('click', () => {
                 switch (callback.victoryStatus()) {
                     case 1: {
                         alert('You have won!');
@@ -134,6 +141,11 @@ export default function View() {
                     }
                 }
             });
+        };
+
+        topGridDivElements.forEach((grid) => {
+            addGameLoopClickListener(grid);
+            addVictoryAlertListener(grid);
         });
     }
 
