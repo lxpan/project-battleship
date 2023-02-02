@@ -1,6 +1,17 @@
 import torpedoIcon from './images/torpedo-icon.png';
 import crosshairIcon from './images/crosshair-icon.png';
 
+const SHIP_STATUS_LEGEND = {
+    hit: {
+        imgSrc: crosshairIcon,
+        legendText: 'Ship has been hit',
+    },
+    sunk: {
+        imgSrc: torpedoIcon,
+        legendText: 'Ship has been sunk',
+    },
+};
+
 /* View.js is our DOM module */
 export default function View() {
     let gameReadyToStart = true;
@@ -414,10 +425,30 @@ export default function View() {
         updateEnemyShipsList(app.playerTwo.ships);
     }
 
+    function addShipStatusIconLegend() {
+        const legendContainer = document.querySelector('.legend-container');
+        const legendItem = document.createElement('div');
+
+        Object.values(SHIP_STATUS_LEGEND).forEach((status) => {
+            const legendText = document.createElement('div');
+
+            legendText.textContent = status.legendText;
+            legendItem.classList.add('legend-item');
+
+            const img = new Image();
+            img.src = status.imgSrc;
+            img.classList.add('legend-icon');
+
+            legendItem.append(img, legendText);
+        });
+        legendContainer.appendChild(legendItem);
+    }
+
     return {
         createGrid,
         renderShips,
         addGridListeners,
         addEventListeners,
+        addShipStatusIconLegend,
     };
 }
