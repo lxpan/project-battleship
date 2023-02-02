@@ -1,6 +1,9 @@
+import torpedoIcon from './images/torpedo-icon.png';
+import crosshairIcon from './images/crosshair-icon.png';
+
 /* View.js is our DOM module */
 export default function View() {
-    let gameReadyToStart = false;
+    let gameReadyToStart = true;
     let shipToPlace = null;
     let shipOrientation = 'h';
     const MISSION_LOG_SIZE = 6;
@@ -55,6 +58,50 @@ export default function View() {
         const newEntry = document.createElement('li');
         newEntry.textContent = errorStr;
         playerMissionLogList.appendChild(newEntry);
+    }
+
+    function titleCase(string) {
+        return string[0].toUpperCase() + string.slice(1).toLowerCase();
+    }
+
+    function updateEnemyShipsList(shipsObj, update) {
+        const myShips = document.querySelector('.enemy-ships-list');
+        if (update) {
+            myShips.innerHTML = '';
+        }
+
+        const ships = Object.values(shipsObj);
+        // iterate through player two ship objects
+        ships.forEach((ship) => {
+            const shipDiv = document.createElement('div');
+            const shipBtn = document.createElement('button');
+
+            shipDiv.className = 'enemy-ship-container';
+            shipBtn.textContent = titleCase(ship.getName());
+
+            const torpedoImg = new Image();
+            const crosshairImg = new Image();
+            torpedoImg.src = torpedoIcon;
+            crosshairImg.src = crosshairIcon;
+
+            torpedoImg.classList.add('hide');
+            crosshairImg.classList.add('hide');
+            console.log(ship.isSunk());
+            // display crosshair icon if enemy ship has been hit
+            if (ship.getTimesHit() > 0) {
+                crosshairImg.classList.remove('hide');
+            }
+
+            // display torpedo icon if enemy ship has been sunk
+            if (ship.isSunk() === true) {
+                torpedoImg.classList.remove('hide');
+            }
+
+            shipDiv.append(shipBtn);
+            shipDiv.appendChild(crosshairImg);
+            shipDiv.appendChild(torpedoImg);
+            myShips.appendChild(shipDiv);
+        });
     }
 
     function addGridListeners(callback, topBoard, bottomBoard) {
@@ -118,6 +165,7 @@ export default function View() {
                 renderTargettingGrid();
                 // update player's view (bottom grid) - AI moves straight after
                 updateBottomGrid();
+                updateEnemyShipsList(callback.playerTwo.ships, true);
             });
         };
 
@@ -363,7 +411,10 @@ export default function View() {
         resetGameBtn.addEventListener('click', () => {
             startGame(true);
         });
+
         setupShipPlacement();
+        console.log(app.playerTwo.ships);
+        updateEnemyShipsList(app.playerTwo.ships);
     }
 
     return {

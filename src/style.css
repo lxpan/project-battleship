@@ -134,6 +134,25 @@ body {
     background-color: hsl(0, 68%, 50%);
 }
 
+.enemy-ships-area button {
+    width: 150px;
+    height: 1.5rem;
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: orangered;
+}
+
+.enemy-ships-area img {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.enemy-ship-container {
+    display: flex;
+    flex: row;
+    align-items: center;
+}
+
 .your-ships-heading {
     padding: 0;
     margin: 0;
