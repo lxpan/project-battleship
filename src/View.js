@@ -271,7 +271,7 @@ export default function View() {
 
         const placeShipOnClick = (evt) => {
             if (shipToPlace === null) {
-                sendErrorToMissionLog('Cannot place ship when no ship selected');
+                sendErrorToMissionLog('Cannot place ship when no ship has been selected!');
                 return;
             }
 
