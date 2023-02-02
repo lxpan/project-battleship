@@ -260,7 +260,7 @@ export default function View() {
         const resetShipPlacement = () => {
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
             bottomDivs.forEach((div) => {
-                if (div.classList.contains(shipToPlace.toLowerCase())) {
+                if (shipToPlace && div.classList.contains(shipToPlace.toLowerCase())) {
                     div.classList.remove(shipToPlace.toLowerCase());
                 }
             });
