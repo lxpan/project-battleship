@@ -270,6 +270,11 @@ export default function View() {
         };
 
         const placeShipOnClick = (evt) => {
+            if (shipToPlace === null) {
+                sendErrorToMissionLog('Cannot place ship when no ship selected');
+                return;
+            }
+
             const shipName = shipToPlace.toLowerCase();
             const coords = JSON.parse(evt.target.dataset.gridCoord);
             // console.log(`name: ${shipName}, coord: ${coords}, orientation: ${shipOrientation}`);
