@@ -205,14 +205,6 @@ export default function View() {
         return Math.ceil(number / 10) * 10;
     }
 
-    function convertArrayToNodeList(arrayOfNodes) {
-        const fragment = document.createDocumentFragment();
-        arrayOfNodes.forEach((item) => {
-            fragment.appendChild(item.cloneNode());
-        });
-        return fragment.childNodes;
-    }
-
     function addEventListeners(app) {
         const SHIP_LENGTH = {
             carrier: 5,
