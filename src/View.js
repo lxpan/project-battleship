@@ -316,7 +316,12 @@ export default function View() {
                 return;
             }
 
-            const shipClass = shipToPlace.toLowerCase();
+            let shipClass;
+
+            if (shipToPlace) {
+                shipClass = shipToPlace.toLowerCase();
+            }
+
             const cursorPosition = JSON.parse(evt.target.dataset.gridCoord);
             const bottomDivs = document.querySelectorAll('.battleship-grid.bottom div');
 
