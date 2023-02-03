@@ -14,7 +14,10 @@ const SHIP_STATUS_LEGEND = {
 
 /* View.js is our DOM module */
 export default function View() {
-    let gameReadyToStart = true;
+    // initial phase of the game is ship placement
+    let gamePhase = 'ship_placement';
+    let gameReadyToStart = false;
+    let firstTurnPlayed = false;
     let shipToPlace = null;
     let shipOrientation = 'h';
     const MISSION_LOG_SIZE = 6;
@@ -176,6 +179,12 @@ export default function View() {
                 // update player's view (bottom grid) - AI moves straight after
                 updateBottomGrid();
                 updateEnemyShipsList(callback.playerTwo.ships, true);
+
+                const playTurnCallToAction = document.getElementById('play-turn-cta');
+                if (!firstTurnPlayed) {
+                    firstTurnPlayed = true;
+                    playTurnCallToAction.classList.add('hide-arrow');
+                }
             });
         };
 
@@ -295,6 +304,12 @@ export default function View() {
                 // game is ready to start after all ships placed
                 if (app.playerOne.allShipsPlaced()) {
                     gameReadyToStart = true;
+                    // transition phase to game_time once all ships placed
+                    gamePhase = 'game_time';
+                    const placeShipCallToAction = document.getElementById('place-ships-cta');
+                    const playTurnCallToAction = document.getElementById('play-turn-cta');
+                    placeShipCallToAction.classList.add('hide');
+                    playTurnCallToAction.classList.remove('hide-arrow');
                 }
             }
             catch (err) {
