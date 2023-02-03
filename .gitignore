@@ -3,7 +3,7 @@
 # Un-ignore all of subtree
 !tests/
 !src/
-!dist/
+!dist/index.html
 !.babelrc
 !.eslintrc.json
 !.gitignore
