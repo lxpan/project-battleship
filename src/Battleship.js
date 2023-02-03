@@ -10,7 +10,9 @@ export default function Battleship(playerName, isComputer, gridX, gridY) {
 
     function setupGame() {
         // playerOne.setupBottomBoardSpreadOut();
-        playerTwo.setupBottomBoard();
+        // playerTwo.setupBottomBoard();
+        playerTwo.setupBottomBoardRandom();
+        playerTwo.renderPlayerBoards();
     }
 
     function resetGame() {

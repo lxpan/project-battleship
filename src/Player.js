@@ -59,6 +59,45 @@ export default function Player(name) {
         board.bottom.placeShip(ships.destroyer, [0, 4], 'v');
     };
 
+    const randCoord = (max) => {
+        const randY = Math.floor(Math.random() * max);
+        const randX = Math.floor(Math.random() * max);
+
+        const attackCoords = [randY, randX];
+        return attackCoords;
+    };
+
+    const setupBottomBoardRandom = () => {
+        const orientationOptions = ['h', 'v'];
+
+        Object.values(ships).forEach((ship) => {
+            let tries = 0;
+
+            while (tries < 100) {
+                const randCoords = randCoord(10);
+                const orientation =
+                    orientationOptions[Math.floor(Math.random() * orientationOptions.length)];
+                try {
+                    console.log(randCoords);
+                    console.log(`Orientation: ${orientation}`);
+                    board.bottom.placeShip(ship, randCoords, orientation);
+                    ships[ship.getName()].placed = true;
+                    break;
+                }
+                catch (error) {
+                    console.log(error);
+                }
+                finally {
+                    tries += 1;
+                }
+            }
+        });
+
+        if (allShipsPlaced() !== true) {
+            throw new Error('Ship randomisation failed!');
+        }
+    };
+
     // render both top and bottom boards
     const renderPlayerBoards = () => {
         const topBoardTitle = 'TARGETTING'.padStart(26, ' ');
@@ -71,14 +110,6 @@ export default function Player(name) {
         yield [0, 4];
         yield [0, 5];
     }
-
-    const randCoord = (max) => {
-        const randY = Math.floor(Math.random() * max);
-        const randX = Math.floor(Math.random() * max);
-
-        const attackCoords = [randY, randX];
-        return attackCoords;
-    };
 
     const playNextMove = () => {
         function isMoveLegal(_move) {
@@ -112,9 +143,9 @@ export default function Player(name) {
             // find adjacent moves that haven't already been played
             enumerateMoves.forEach((coord) => {
                 if (
-                    isMoveLegal(coord)
-                    && !hits.has(JSON.stringify(coord))
-                    && !misses.has(JSON.stringify(coord))
+                    isMoveLegal(coord) &&
+                    !hits.has(JSON.stringify(coord)) &&
+                    !misses.has(JSON.stringify(coord))
                 ) {
                     validMoves.push(coord);
                 }
@@ -134,9 +165,9 @@ export default function Player(name) {
         while (!smartMove) {
             randomMove = randCoord(10);
             if (
-                isMoveLegal(randomMove)
-                && !hits.has(JSON.stringify(randomMove))
-                && !misses.has(JSON.stringify(randomMove))
+                isMoveLegal(randomMove) &&
+                !hits.has(JSON.stringify(randomMove)) &&
+                !misses.has(JSON.stringify(randomMove))
             ) {
                 smartMove = true;
             }
@@ -183,6 +214,7 @@ export default function Player(name) {
         placeShip,
         setupBottomBoard,
         setupBottomBoardSpreadOut,
+        setupBottomBoardRandom,
         renderPlayerBoards,
         playNextMove,
         playNextMovePreset,
