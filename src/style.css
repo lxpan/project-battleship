@@ -236,3 +236,9 @@ a {
         transform: translateY(-15px);
     }
 }
+
+#cta-player-bottom-grid {
+    display: flex;
+    justify-content: center;
+    font-size: .8rem;
+}

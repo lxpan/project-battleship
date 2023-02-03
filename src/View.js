@@ -462,11 +462,18 @@ export default function View() {
         legendContainer.appendChild(legendItem);
     }
 
+    function addImageAttributionLink() {
+        const imageAttrAnchor = document.getElementById('image-attribution-link');
+        console.log(imageAttrAnchor);
+        imageAttrAnchor.href = './attribution.html';
+    }
+
     return {
         createGrid,
         renderShips,
         addGridListeners,
         addEventListeners,
         addShipStatusIconLegend,
+        addImageAttributionLink,
     };
 }

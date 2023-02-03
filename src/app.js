@@ -29,3 +29,4 @@ view.addGridListeners(
     app.playerOne.board.bottom.getBoard(),
 );
 view.addShipStatusIconLegend();
+view.addImageAttributionLink();
