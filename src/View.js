@@ -97,7 +97,6 @@ export default function View() {
 
             torpedoImg.classList.add('hide');
             crosshairImg.classList.add('hide');
-            console.log(ship.isSunk());
             // display crosshair icon if enemy ship has been hit
             if (ship.getTimesHit() > 0) {
                 crosshairImg.classList.remove('hide');
@@ -426,7 +425,6 @@ export default function View() {
         });
 
         setupShipPlacement();
-        console.log(app.playerTwo.ships);
         updateEnemyShipsList(app.playerTwo.ships);
     }
 
