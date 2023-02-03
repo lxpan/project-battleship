@@ -78,14 +78,14 @@ export default function Player(name) {
                 const orientation =
                     orientationOptions[Math.floor(Math.random() * orientationOptions.length)];
                 try {
-                    console.log(randCoords);
-                    console.log(`Orientation: ${orientation}`);
+                    // console.log(randCoords);
+                    // console.log(`Orientation: ${orientation}`);
                     board.bottom.placeShip(ship, randCoords, orientation);
                     ships[ship.getName()].placed = true;
                     break;
                 }
                 catch (error) {
-                    console.log(error);
+                    // console.log(error);
                 }
                 finally {
                     tries += 1;
@@ -103,7 +103,6 @@ export default function Player(name) {
         const topBoardTitle = 'TARGETTING'.padStart(26, ' ');
         const bottomBoardTitle = `${name.toUpperCase()} SHIPS`.padStart(28, ' ');
         const combinedRender = `${topBoardTitle}${board.top.renderBoard()}\n${bottomBoardTitle}${board.bottom.renderBoard()}`;
-        console.log(combinedRender);
     };
 
     function* playNextMovePreset() {

@@ -416,7 +416,7 @@ export default function View() {
                     }
 
                     shipToPlace = btn.textContent;
-                    console.log(`Currently selected ship: ${shipToPlace}`);
+                    // console.log(`Currently selected ship: ${shipToPlace}`);
                 });
             });
 
